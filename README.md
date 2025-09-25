@@ -1,2 +1,2 @@
-# Aston-72-Group-5
+# Итоговый командный проект купса "Java Developer"
  Final project
