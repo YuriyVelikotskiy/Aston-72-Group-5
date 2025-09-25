@@ -1,5 +1,11 @@
 # Итоговый командный проект курса "Java Developer"
 [Постановка задачи](https://github.com/YuriyVelikotskiy/Aston-72-Group-5?tab=readme-ov-file#постановка-задачи)
+[Дополнительные задачи](https://github.com/YuriyVelikotskiy/Aston-72-Group-5?tab=readme-ov-file#дополнительные-задачи)
+[Основные требования](https://github.com/YuriyVelikotskiy/Aston-72-Group-5?tab=readme-ov-file#основные-требования)
+[Требования к вводимым данным](https://github.com/YuriyVelikotskiy/Aston-72-Group-5?tab=readme-ov-file#требования-к-вводимым-данным)
+[Требования к функционалу](https://github.com/YuriyVelikotskiy/Aston-72-Group-5?tab=readme-ov-file#требования-к-функционалу)
+[Требования к кастомным классам](https://github.com/YuriyVelikotskiy/Aston-72-Group-5?tab=readme-ov-file#требования-к-кастомным-классам)
+[Требования к презентации проекта](https://github.com/YuriyVelikotskiy/Aston-72-Group-5?tab=readme-ov-file#требования-к-презентации-проекта)
 
 ## Постановка задачи
 Написать приложение, которое будет реализовывать алгоритм сортировки по переданным классам. Программа должна выполняться в цикле. Выход из цикла возможен только путем соответствующего выбора пользователя. Реализовать кастомные классы, над которыми будет совершаться работа программы.
