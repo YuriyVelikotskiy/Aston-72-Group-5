@@ -9,22 +9,22 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
-public class CashCreater implements Runnable {
+public class CashCreates implements Runnable {
     private static final Path CASHPATH = Paths.get(System.getProperty("user.dir") + "\\cash");
-    private static CashCreater instance;
+    private static CashCreates instance;
     private Thread cashThread;
     private ArrayList<CashedClass> pendingCacheItems;
 
 
-    private CashCreater() {
+    private CashCreates() {
         if (instance != null) {
             throw new IllegalStateException("CashCreater Already exist");
         }
     }
 
-    public static synchronized CashCreater getInstance() {
+    public static synchronized CashCreates getInstance() {
         if (instance == null) {
-            return new CashCreater();
+            return new CashCreates();
         }
         return instance;
     }
