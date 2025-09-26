@@ -1,9 +1,13 @@
 package classBuilder;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.time.LocalDate;
 
 /// Класс издательства содержащий назваиние издательства, город и год основания.
-/// Реализован Builder, поле названия является обязательным.
+/// Реализован Builder.
 /// Валидация на год основания(не позже текущего года).
 /// По умолчанию поля остаются null
 
@@ -42,22 +46,31 @@ public class Publisher extends CashedClass {
                 '}';
     }
 
+    public static Publisher jsonBuild(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Publisher.PublisherBuilder builder = mapper.readValue(json, Publisher.PublisherBuilder.class);
+        return builder.build();
+    }
+
     //класс билдер
     public static class PublisherBuilder {
-        private final String name;
+        private  String name;
         private String city;
         private int foundingYear;
 
-        public PublisherBuilder(String name) {
+        @JsonProperty("name")
+        public PublisherBuilder name(String name){
             this.name = name;
+            return this;
         }
 
+        @JsonProperty("city")
         public PublisherBuilder city(String city) {
             this.city = city;
             return this;
         }
 
-
+        @JsonProperty("foundingYear")
         public PublisherBuilder foundingYear(int foundingYear) {
             if (foundingYear > LocalDate.now().getYear()) {
                 throw new IllegalArgumentException("некорректная основания издательства");

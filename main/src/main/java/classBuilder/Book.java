@@ -1,9 +1,13 @@
 package classBuilder;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.time.LocalDate;
 
 /// Класс книги содержащий заголовок, год публикации и жанр.
-/// Реализован Builder, поле заголовка является обязательным.
+/// Реализован Builder.
 /// Валидация на длину жанра и на проверку года.
 /// По умолчанию поле жанра null, год ставится текущий
 public class Book extends CashedClass{
@@ -38,20 +42,26 @@ public class Book extends CashedClass{
                 ", genre='" + genre + '\'' +
                 '}';
     }
+
+    public static Book jsonBuild(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Book.BookBuilder builder = mapper.readValue(json, Book.BookBuilder.class);
+        return builder.build();
+    }
     
 
     //билдер
     public static class BookBuilder {
-        private final String tile;
+        private String tile;
         private int yearPublished;
         private String genre;
 
-        public BookBuilder(String tile) {
-            this.tile = tile;
+        public BookBuilder() {
             this.yearPublished = LocalDate.now().getYear();
         }
 
         //ввод значений с валидацией
+        @JsonProperty("yearPublished")
         public BookBuilder yearPublished(int yearPublished) {
             if (yearPublished > LocalDate.now().getYear()) {
                 throw new IllegalArgumentException("некорректная дата выхода книги");
@@ -60,7 +70,7 @@ public class Book extends CashedClass{
                 return this;
             }
         }
-
+        @JsonProperty("genre")
         public BookBuilder genre(String genre) {
             if (genre.length() > 30) {
                 throw new IllegalArgumentException("некорректный жанр книги");
@@ -68,6 +78,11 @@ public class Book extends CashedClass{
                 this.genre = genre;
                 return this;
             }
+        }
+        @JsonProperty("tile")
+        public BookBuilder tile(String tile){
+            this.tile = tile;
+            return this;
         }
 
         //билдер возвращающий книгу

@@ -1,14 +1,20 @@
 package classBuilder;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.time.LocalDate;
 
 /// Класс автора содержащий Фио автора, год рождения и страну.
-/// Реализован Builder, поле Фио является обязательным.
+/// Реализован Builder.
 /// Валидация на возраст автора(не менее 16 лет).
 /// По умолчанию поля остаются null
 
-public class Author extends CashedClass{
+public class Author extends CashedClass {
     private final String fullName;
     private final String country;
     private final int birthAYear;
@@ -42,23 +48,33 @@ public class Author extends CashedClass{
                 '}';
     }
 
+    public static Author jsonBuild(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        AuthorBuilder builder = mapper.readValue(json, AuthorBuilder.class);
+        return builder.build();
+    }
 
 
     //класс билдер
     public static class AuthorBuilder {
-        private final String fullName;
+        private String fullName;
         private String country;
         private int birthAYear;
 
-        public AuthorBuilder(String fullName) {
-            this.fullName = fullName;
-        }
 
+        @JsonProperty("country")
         public AuthorBuilder country(String country) {
             this.country = country;
             return this;
         }
 
+        @JsonProperty("fullName")
+        public AuthorBuilder name(String fullName) {
+            this.fullName = fullName;
+            return this;
+        }
+
+        @JsonProperty("birthAYear")
         public AuthorBuilder birthAYear(int birthAYear) {
             if (birthAYear > LocalDate.now().getYear() - 16) {
                 throw new IllegalArgumentException("некорректный год рождения автора");
@@ -72,7 +88,5 @@ public class Author extends CashedClass{
         public Author build() {
             return new Author(this);
         }
-
-
     }
 }
