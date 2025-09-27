@@ -12,7 +12,6 @@ public final class QuickSort {
 
     ///  Constructor for first call
     public static <T> void quickSort(List<T> list, Comparator<? super T> cmp) {
-/// null policy - processing data at Userinput or there ???
         Objects.requireNonNull(list, "list is null");
         Objects.requireNonNull(cmp,  "Comparator is null");
         if (list.size() < 2) return;
