@@ -1,0 +1,93 @@
+package qsort;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+public final class QuickSort {
+
+    ///  Constructor for first call
+    public static <T> void quickSort(List<T> list, Comparator<? super T> cmp) {
+/// null policy - processing data at Userinput or there ???
+        Objects.requireNonNull(list, "list is null");
+        Objects.requireNonNull(cmp,  "Comparator is null");
+        if (list.size() < 2) return;
+        quickSortTwoThreads(list, cmp);
+    }
+
+    /// MultiThreading
+    private static <T> void quickSortTwoThreads(List<T> list, Comparator<? super T> cmp) {
+
+        int low = 0, high = list.size() - 1;
+        int p = partition(list, low, high, cmp);
+
+        ExecutorService pool = Executors.newFixedThreadPool(2);
+        try  {
+            Future<?> f1 = (p - 1 >= low)
+                    ? pool.submit(() -> quickSort(list, low, p - 1, cmp))
+                    : null;
+            Future<?> f2 = (p + 1 <= high)
+                    ? pool.submit(() -> quickSort(list, p + 1, high, cmp))
+                    : null;
+            if (f1 != null) f1.get();
+            if(f2 != null) f2.get();
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e.getCause());
+        } finally {
+            pool.shutdown();
+        }
+    }
+
+    /// Constructor for recursion
+    private static <T> void quickSort(List<T> a, int low, int high, Comparator<? super T> cmp) {
+        if (low >= high) return;
+        int p = partition(a, low, high, cmp);
+        quickSort(a, low, p - 1, cmp);        // левая часть
+        quickSort(a, p + 1, high, cmp);        // правая часть
+    }
+
+    private static <T> int partition(List<T> a, int low, int high, Comparator<? super T> cmp) {
+        moveMedianOfThreeToHigh(a, low, high, cmp);
+        T pivot = a.get(high);
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            if (cmp(a.get(j), pivot, cmp) <= 0) {
+                i++;
+                swap(a, i, j);
+            }
+        }
+        swap(a, i + 1, high);
+        return i + 1;
+    }
+
+    /// follow DRY
+    private static <T> void swap(List<T> a, int i, int j) {
+        T temp = a.get(i);
+        a.set(i, a.get(j));
+        a.set(j, temp);
+    }
+
+    /// Helper
+    private static <T> int cmp(T x, T y, Comparator<? super T> cmp) {
+        return cmp.compare(x, y);
+    }
+
+    /// To avoid the worst case.
+    /// Swap median to high, Lomuto expect pivot there
+    private static <T> void moveMedianOfThreeToHigh(List<T> a, int low, int high, Comparator<? super T> cmp) {
+        int mid = low + (high - low) / 2;
+
+        if (cmp(a.get(low), a.get(mid), cmp) > 0) swap(a, low, mid);
+        if (cmp(a.get(mid), a.get(high), cmp) > 0) swap(a, mid, high);
+        if (cmp(a.get(low), a.get(mid), cmp) > 0) swap(a, low, mid);
+
+        swap(a, mid, high);
+    }
+
+}
