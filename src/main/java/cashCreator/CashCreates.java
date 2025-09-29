@@ -1,4 +1,4 @@
-package CashCreater;
+package cashCreator;
 
 import classBuilder.CashedClass;
 
