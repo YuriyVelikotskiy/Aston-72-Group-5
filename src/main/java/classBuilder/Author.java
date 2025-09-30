@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /// Класс автора содержащий Фио автора, год рождения и страну.
 /// Реализован Builder.
@@ -86,5 +87,20 @@ public class Author extends CashedClass {
         public Author build() {
             return new Author(this);
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fullName, country, birthAYear);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author = (Author) o;
+        return Objects.equals(
+                fullName, author.getFullName()) &&
+                Objects.equals(country, author.getCountry()) &&
+                Objects.equals(birthAYear, author.getBirthAYear());
     }
 }
