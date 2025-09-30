@@ -38,8 +38,8 @@ public class BinarySearchTest {
     }
 
     @Test
-    @DisplayName("Fond element in large list")
-    void FindElementInLargeList() {
+    @DisplayName("Found element in large list")
+    void findElementInLargeList() {
         List<Integer> list = IntStream.range(0, 1000).boxed().collect(Collectors.toList());
         int element = 703;
         int index = BinarySearch.search(list, element, Comparator.naturalOrder());
