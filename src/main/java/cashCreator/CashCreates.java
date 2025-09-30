@@ -37,7 +37,7 @@ public class CashCreates implements Runnable {
                 cash.append(item.toJSON()).append(","));
         cash.deleteCharAt(cash.length()-1);
         try {
-            Files.writeString(CASHPATH,cash.toString(),StandardOpenOption.TRUNCATE_EXISTING );
+            Files.writeString(CASHPATH,cash.toString(),StandardOpenOption.TRUNCATE_EXISTING,StandardOpenOption.CREATE );
         }catch (IOException e){
             throw new RuntimeException(e);
         }
