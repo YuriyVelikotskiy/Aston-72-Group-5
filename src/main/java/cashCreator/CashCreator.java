@@ -17,23 +17,23 @@ import java.util.concurrent.TimeUnit;
 /// Файлы перезаписываются заново каждый раз.
 /// Метод start(список, путь, true) использует запись с добавлением в конец.
 /// В случае если файл не существует, то создастся новый файл
-public class CashCreates {
+public class CashCreator {
     private static final Path CASHPATH = Paths.get(System.getProperty("user.dir") + "\\cash");
-    private static CashCreates instance;
+    private static CashCreator instance;
     private Thread cashThread;
     private final BlockingQueue<CashTask> queue = new LinkedBlockingQueue<>();
 
     /// Метод получения Instance с защитой от рефлексии
-    private CashCreates() {
+    private CashCreator() {
         if (instance != null) {
             throw new IllegalStateException("CashCreater Already exist");
         }
     }
 
     /// Ленивая инициализация
-    public static synchronized CashCreates getInstance() {
+    public static synchronized CashCreator getInstance() {
         if (instance == null) {
-            return new CashCreates();
+            return new CashCreator();
         }
         return instance;
     }
@@ -87,8 +87,7 @@ public class CashCreates {
     private void addCash(CashTask task) {
         StringBuffer cash = new StringBuffer();
         task.getToCash().forEach(item ->
-                cash.append(item.toJSON()).append(","));
-        cash.deleteCharAt(cash.length() - 1);
+                cash.append(item.toJSON()).append("\n"));
         try {
             if (task.getAddMode()) {
                 Files.writeString(task.getPath(), cash.toString(), StandardOpenOption.APPEND, StandardOpenOption.CREATE);
