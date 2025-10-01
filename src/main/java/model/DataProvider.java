@@ -10,21 +10,14 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class DataProvider {
-    private static DataProvider INSTANCE;
-    private static final CopyOnWriteArrayList<CashedClass> data = new CopyOnWriteArrayList<>();
+    private static final DataProvider INSTANCE = new DataProvider();
+    private final CopyOnWriteArrayList<CashedClass> data = new CopyOnWriteArrayList<>();
     private final Lock lock = new ReentrantLock(true);
     private Class<? extends CashedClass> clazz;
 
-    private DataProvider() {
-        if (INSTANCE != null) {
-            throw new IllegalStateException("DataProvider Already exist");
-        }
-    }
+    private DataProvider() {}
 
-    public static synchronized DataProvider getInstance() {
-        if (INSTANCE == null) {
-            return new DataProvider();
-        }
+    public static DataProvider getInstance() {
         return INSTANCE;
     }
 
