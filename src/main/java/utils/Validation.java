@@ -1,4 +1,4 @@
-package Utils;
+package utils;
 
 import classBuilder.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
