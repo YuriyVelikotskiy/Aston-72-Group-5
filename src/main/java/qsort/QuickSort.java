@@ -11,10 +11,20 @@ import java.util.concurrent.Future;
 public final class QuickSort {
 
     ///  Constructor for first call
-    public static <T> void quickSort(List<T> list, Comparator<? super T> cmp) {
-        Objects.requireNonNull(list, "list is null");
-        Objects.requireNonNull(cmp,  "Comparator is null");
+    public static <T extends Comparable <? super T>> void quickSort(List<T> list) {
         if (list.size() < 2) return;
+        Comparator <? super T> cmp = Comparator.naturalOrder();
+        quickSortTwoThreads(list, cmp);
+    }
+
+    /// Constructor for first call with reverseOrder
+    public static <T extends Comparable<? super T>> void quickSort(List<T> list, boolean ascending) {
+        if (list.size() < 2) return;
+
+        Comparator<? super T> cmp = ascending
+                ? Comparator.naturalOrder()
+                : Comparator.reverseOrder();
+
         quickSortTwoThreads(list, cmp);
     }
 
@@ -56,7 +66,7 @@ public final class QuickSort {
         T pivot = a.get(high);
         int i = low - 1;
         for (int j = low; j < high; j++) {
-            if (cmp(a.get(j), pivot, cmp) <= 0) {
+            if (cmp.compare(a.get(j), pivot) <= 0) {
                 i++;
                 swap(a, i, j);
             }
@@ -72,19 +82,19 @@ public final class QuickSort {
         a.set(j, temp);
     }
 
-    /// Helper
+    /* Helper
     private static <T> int cmp(T x, T y, Comparator<? super T> cmp) {
         return cmp.compare(x, y);
-    }
+    }*/
 
     /// To avoid the worst case.
     /// Swap median to high, Lomuto expect pivot there
     private static <T> void moveMedianOfThreeToHigh(List<T> a, int low, int high, Comparator<? super T> cmp) {
         int mid = low + (high - low) / 2;
 
-        if (cmp(a.get(low), a.get(mid), cmp) > 0) swap(a, low, mid);
-        if (cmp(a.get(mid), a.get(high), cmp) > 0) swap(a, mid, high);
-        if (cmp(a.get(low), a.get(mid), cmp) > 0) swap(a, low, mid);
+        if (cmp.compare(a.get(low), a.get(mid)) > 0) swap(a, low, mid);
+        if (cmp.compare(a.get(mid), a.get(high)) > 0) swap(a, mid, high);
+        if (cmp.compare(a.get(low), a.get(mid)) > 0) swap(a, low, mid);
 
         swap(a, mid, high);
     }
