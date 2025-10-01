@@ -109,6 +109,5 @@ public class QuickSortTest {
         QuickSort.quickSort(list);
         sortedCopy.sort(Comparator.naturalOrder());
         assertEquals(sortedCopy, list);
-        System.out.println(list);
     }
 }
