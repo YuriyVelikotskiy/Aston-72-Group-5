@@ -55,6 +55,7 @@ public class Author extends CashedClass implements Comparable<Author>{
 
     @Override
     public int compareTo(Author other) {
+        // пример для сравнения по country
         return getCountry().compareTo(other.getCountry());
     }
 
