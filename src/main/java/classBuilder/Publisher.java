@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /// Класс издательства содержащий назваиние издательства, город и год основания.
 /// Реализован Builder.
@@ -83,5 +84,20 @@ public class Publisher extends CashedClass {
         public Publisher build() {
             return new Publisher(this);
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, city, foundingYear);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Publisher publisher = (Publisher) o;
+        return Objects.equals(
+                name, publisher.getName()) &&
+                Objects.equals(city, publisher.getCity()) &&
+                Objects.equals(foundingYear, publisher.getFoundingYear());
     }
 }

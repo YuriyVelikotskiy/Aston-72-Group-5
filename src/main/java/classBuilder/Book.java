@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /// Класс книги содержащий заголовок, год публикации и жанр.
 /// Реализован Builder.
@@ -89,5 +90,20 @@ public class Book extends CashedClass{
         public Book build() {
             return new Book(this);
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tile, yearPublished, genre);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(
+                tile, book.getTile()) &&
+                Objects.equals(yearPublished, book.getYearPublished()) &&
+                Objects.equals(genre, book.getGenre());
     }
 }

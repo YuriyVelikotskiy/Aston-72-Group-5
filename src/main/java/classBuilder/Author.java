@@ -6,13 +6,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /// Класс автора содержащий Фио автора, год рождения и страну.
 /// Реализован Builder.
 /// Валидация на возраст автора(не менее 16 лет).
 /// По умолчанию поля остаются null
 
-public class Author extends CashedClass {
+public class Author extends CashedClass implements Comparable<Author>{
     private final String fullName;
     private final String country;
     private final int birthAYear;
@@ -52,6 +53,12 @@ public class Author extends CashedClass {
         return builder.build();
     }
 
+    @Override
+    public int compareTo(Author other) {
+        // пример для сравнения по country
+        return getCountry().compareTo(other.getCountry());
+    }
+
 
     //класс билдер
     public static class AuthorBuilder {
@@ -86,5 +93,20 @@ public class Author extends CashedClass {
         public Author build() {
             return new Author(this);
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fullName, country, birthAYear);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author = (Author) o;
+        return Objects.equals(
+                fullName, author.getFullName()) &&
+                Objects.equals(country, author.getCountry()) &&
+                Objects.equals(birthAYear, author.getBirthAYear());
     }
 }

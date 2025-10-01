@@ -1,3 +1,4 @@
+import classBuilder.Author;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import qsort.QuickSort;
@@ -14,7 +15,7 @@ public class QuickSortTest {
     @DisplayName("Empty list - no changes, no errors")
     void shouldNotBeChangedWithEmptyList() {
         List<Integer> list = new ArrayList<>();
-        QuickSort.quickSort(list, Comparator.naturalOrder());
+        QuickSort.quickSort(list);
         assertTrue(list.isEmpty());
     }
 
@@ -22,7 +23,7 @@ public class QuickSortTest {
     @DisplayName("One element - no changes")
     void shouldNotBeChangedWithOneElement() {
         List<Integer> list = new ArrayList<>(List.of(52));
-        QuickSort.quickSort(list, Comparator.naturalOrder());
+        QuickSort.quickSort(list);
         assertEquals(List.of(52), list);
     }
 
@@ -30,9 +31,7 @@ public class QuickSortTest {
     @DisplayName("Null args - NPE")
     void shouldThrowNPEWithNullArgs() {
         assertThrows(NullPointerException.class,
-                () -> QuickSort.quickSort(null, Comparator.naturalOrder()));
-        assertThrows(NullPointerException.class,
-                () -> QuickSort.quickSort(new ArrayList<>(), null));
+                () -> QuickSort.quickSort(null));
     }
 
     @Test
@@ -40,7 +39,7 @@ public class QuickSortTest {
     void shouldNotChangedWithSortedList() {
         List<Integer> list = new ArrayList<>(List.of(1,2,3,4,5));
         List<Integer> copy = new ArrayList<>(list);
-        QuickSort.quickSort(list, Comparator.naturalOrder());
+        QuickSort.quickSort(list);
         assertEquals(copy, list);
     }
 
@@ -48,7 +47,7 @@ public class QuickSortTest {
     @DisplayName("SortTest")
     void shouldSortList() {
         List<Integer> list = new ArrayList<>(List.of(5,4,3,2,1));
-        QuickSort.quickSort(list, Comparator.naturalOrder());
+        QuickSort.quickSort(list);
         assertEquals(new ArrayList<>(List.of(1,2,3,4,5)), list);
     }
 
@@ -56,7 +55,7 @@ public class QuickSortTest {
     @DisplayName("ReversedComparator SortTest")
     void shouldSortListWIthReverseOrder() {
         List<Integer> list = new ArrayList<>(List.of(1,2,3,4,5));
-        QuickSort.quickSort(list, Comparator.reverseOrder());
+        QuickSort.quickSort(list, false);
         assertEquals(new ArrayList<>(List.of(5,4,3,2,1)), list);
     }
 
@@ -66,7 +65,7 @@ public class QuickSortTest {
         List<Integer> list = new ArrayList<>(List.of(5,6,3,3,4,4,3,2,1,1,1,5,6));
         List<Integer> sortedCopy = new ArrayList<>(list);
         sortedCopy.sort(Comparator.naturalOrder());
-        QuickSort.quickSort(list, Comparator.naturalOrder());
+        QuickSort.quickSort(list);
         assertEquals(sortedCopy, list);
     }
 
@@ -77,7 +76,38 @@ public class QuickSortTest {
         for (int i = 0; i < 1_000_000; i++) {
             list.add((int)(Math.random() * 1000));
         }
-        assertTimeoutPreemptively(Duration.ofSeconds(2), () -> QuickSort.quickSort(list, Comparator.naturalOrder()));
+        assertTimeoutPreemptively(Duration.ofSeconds(2), () -> QuickSort.quickSort(list));
     }
 
+    @Test
+    @DisplayName("LargeData sort must be correct")
+    void largeDataShouldBeCorrect() {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 1_000_000; i++) {
+            list.add((int)(Math.random() * 1000));
+        }
+        List<Integer> sortedCopy = new ArrayList<>(list);
+        sortedCopy.sort(Comparator.naturalOrder());
+        QuickSort.quickSort(list);
+        assertEquals(sortedCopy, list);
+    }
+
+    @Test
+    @DisplayName("Test with Author")
+    void authorShouldBeCorrect() {
+        List<Author> list = new ArrayList<>();
+        Author.AuthorBuilder builder = new Author.AuthorBuilder();
+        Author a1 = builder.birthAYear(1).country("a").name("A").build();
+        Author a2 = builder.birthAYear(2).country("b").name("B").build();
+        Author a3 = builder.birthAYear(3).country("c").name("C").build();
+        Author a4 = builder.birthAYear(4).country("d").name("D").build();
+        list.add(a1);
+        list.add(a2);
+        list.add(a3);
+        list.add(a4);
+        List<Author> sortedCopy = new ArrayList<>(list);
+        QuickSort.quickSort(list);
+        sortedCopy.sort(Comparator.naturalOrder());
+        assertEquals(sortedCopy, list);
+    }
 }
