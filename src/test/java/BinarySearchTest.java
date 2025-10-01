@@ -1,4 +1,4 @@
-import binartSearch.BinarySearch;
+import binarySearch.BinarySearch;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
