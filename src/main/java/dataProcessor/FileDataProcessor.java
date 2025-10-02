@@ -1,7 +1,12 @@
-package DataProcessor;
+package dataProcessor;
 
 import CashCreater.CashReader;
-import Model.DataProvider;
+import classBuilder.Author;
+import classBuilder.CashedClass;
+import model.DataProvider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileDataProcessor extends DataProcessor {
 
@@ -11,16 +16,16 @@ public class FileDataProcessor extends DataProcessor {
 
     @Override
     public boolean hasData() {
-
+        DataProvider dataProvider = DataProvider.getInstance();
         try {
             System.out.println("Try read cash");
-            var inPutArray = CashReader.getArrayList();
-            DataProvider.addAll(inPutArray);
+            var inPutArray = new ArrayList<CashedClass>(List.of(new Author.AuthorBuilder().build(),new Author.AuthorBuilder().build())); //TODO заглушка - убрать
+            dataProvider.addAll(inPutArray);
         } catch (IllegalArgumentException e){
             System.out.println(e + "\nCash-file is not valid");
         }
 
-        if (!DataProvider.isEmpty()) {
+        if (!dataProvider.isEmpty()) {
             System.out.println("Cash-file is readied");
             return true;
         } else if (nextProcessor != null) {

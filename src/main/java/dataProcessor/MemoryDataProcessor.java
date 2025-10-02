@@ -1,8 +1,10 @@
-package DataProcessor;
+package dataProcessor;
 
-import Model.DataProvider;
+import model.DataProvider;
 
 public class MemoryDataProcessor extends DataProcessor {
+
+    DataProvider dataProvider = DataProvider.getInstance();
 
     public MemoryDataProcessor(DataProcessor next) {
         super(next);
@@ -10,7 +12,7 @@ public class MemoryDataProcessor extends DataProcessor {
 
     @Override
     public boolean hasData() {
-        if(!DataProvider.isEmpty()){
+        if(!dataProvider.isEmpty()){
             System.out.println("Data in memory");
             return true;
         } else if (nextProcessor != null) {

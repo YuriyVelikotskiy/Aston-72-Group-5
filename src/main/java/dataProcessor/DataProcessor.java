@@ -1,6 +1,4 @@
-package DataProcessor;
-
-import Model.DataProvider;
+package dataProcessor;
 
 public abstract class DataProcessor {
     protected DataProcessor nextProcessor;
