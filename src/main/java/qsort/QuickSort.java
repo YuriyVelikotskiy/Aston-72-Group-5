@@ -13,7 +13,7 @@ public final class QuickSort {
     ///  Конструктор первого вызова
     public static <T extends Comparable <? super T>> void quickSort(List<T> list) {
         if (list.size() < 2) return;
-        Comparator <? super T> cmp = Comparator.naturalOrder();
+        Comparator<? super T> cmp = Comparator.nullsLast(Comparator.naturalOrder());
         quickSortTwoThreads(list, cmp);
     }
 
@@ -21,9 +21,9 @@ public final class QuickSort {
     public static <T extends Comparable<? super T>> void quickSort(List<T> list, boolean ascending) {
         if (list.size() < 2) return;
 
-        Comparator<? super T> cmp = ascending
-                ? Comparator.naturalOrder()
+        Comparator<? super T> base = ascending ? Comparator.naturalOrder()
                 : Comparator.reverseOrder();
+        Comparator<? super T> cmp = Comparator.nullsLast(base);
 
         quickSortTwoThreads(list, cmp);
     }

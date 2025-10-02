@@ -5,6 +5,7 @@ import qsort.QuickSort;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -109,4 +110,32 @@ public class QuickSortTest {
         sortedCopy.sort(Comparator.naturalOrder());
         assertEquals(sortedCopy, list);
     }
+
+    @Test
+    @DisplayName("Тест сортировки со значениями null")
+    void nullsGoToTheEnd_Natural() {
+        List<Integer> list = new ArrayList<>(Arrays.asList(3, null, 1, null, 2));
+        QuickSort.quickSort(list);
+        assertEquals(Arrays.asList(1, 2, 3, null, null), list);
+    }
+
+
+//    @Test
+//    @DisplayName("Тест сортировки по классу Author со значениями null")
+//    void nullFields_Author_ByCountryThenName() {
+//        List<Author> list = Arrays.asList(
+//                new Author.AuthorBuilder().name("B").country(null).birthAYear(1990).build(),
+//                new Author.AuthorBuilder().name(null).country("DE").birthAYear(1980).build(),
+//                new Author.AuthorBuilder().name("A").country("DE").birthAYear(2000).build()
+//        );
+//        QuickSort.quickSort(list);
+//        assertEquals(
+//                Arrays.asList(
+//                        new Author.AuthorBuilder().name("A").country("DE").birthAYear(2000).build(),
+//                        new Author.AuthorBuilder().name(null).country("DE").birthAYear(1980).build(),
+//                        new Author.AuthorBuilder().name("B").country(null).birthAYear(1990).build()
+//                ),
+//                list
+//        );
+//    }
 }
