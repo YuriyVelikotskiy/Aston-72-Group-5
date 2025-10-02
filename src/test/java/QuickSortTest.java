@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class QuickSortTest {
     @Test
-    @DisplayName("Empty list - no changes, no errors")
+    @DisplayName("Пустой лист - нет изменений")
     void shouldNotBeChangedWithEmptyList() {
         List<Integer> list = new ArrayList<>();
         QuickSort.quickSort(list);
@@ -20,7 +20,7 @@ public class QuickSortTest {
     }
 
     @Test
-    @DisplayName("One element - no changes")
+    @DisplayName("Один элемент - нет изменений")
     void shouldNotBeChangedWithOneElement() {
         List<Integer> list = new ArrayList<>(List.of(52));
         QuickSort.quickSort(list);
@@ -28,14 +28,14 @@ public class QuickSortTest {
     }
 
     @Test
-    @DisplayName("Null args - NPE")
+    @DisplayName("Значение null - NPE")
     void shouldThrowNPEWithNullArgs() {
         assertThrows(NullPointerException.class,
                 () -> QuickSort.quickSort(null));
     }
 
     @Test
-    @DisplayName("Sorted List - no changes")
+    @DisplayName("Отсортированный лист - нет изменений")
     void shouldNotChangedWithSortedList() {
         List<Integer> list = new ArrayList<>(List.of(1,2,3,4,5));
         List<Integer> copy = new ArrayList<>(list);
@@ -44,7 +44,7 @@ public class QuickSortTest {
     }
 
     @Test
-    @DisplayName("SortTest")
+    @DisplayName("Проверка сортировки")
     void shouldSortList() {
         List<Integer> list = new ArrayList<>(List.of(5,4,3,2,1));
         QuickSort.quickSort(list);
@@ -52,7 +52,7 @@ public class QuickSortTest {
     }
 
     @Test
-    @DisplayName("ReversedComparator SortTest")
+    @DisplayName("Проверка сортировки в обратном порядке")
     void shouldSortListWIthReverseOrder() {
         List<Integer> list = new ArrayList<>(List.of(1,2,3,4,5));
         QuickSort.quickSort(list, false);
@@ -60,7 +60,7 @@ public class QuickSortTest {
     }
 
     @Test
-    @DisplayName("Valid sort with duplicates")
+    @DisplayName("Лист с дублями - сортировка корректна")
     void shouldSortListWithDuplicates() {
         List<Integer> list = new ArrayList<>(List.of(5,6,3,3,4,4,3,2,1,1,1,5,6));
         List<Integer> sortedCopy = new ArrayList<>(list);
@@ -70,7 +70,7 @@ public class QuickSortTest {
     }
 
     @Test
-    @DisplayName("test with large data")
+    @DisplayName("Тест времени при большом объеме входных данных")
     void shouldSortListWithLargeData() {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < 1_000_000; i++) {
@@ -80,7 +80,7 @@ public class QuickSortTest {
     }
 
     @Test
-    @DisplayName("LargeData sort must be correct")
+    @DisplayName("Тест корректности при большом объеме входных данных")
     void largeDataShouldBeCorrect() {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < 1_000_000; i++) {
@@ -93,18 +93,17 @@ public class QuickSortTest {
     }
 
     @Test
-    @DisplayName("Test with Author")
+    @DisplayName("Тест с классом Author")
     void authorShouldBeCorrect() {
         List<Author> list = new ArrayList<>();
-        Author.AuthorBuilder builder = new Author.AuthorBuilder();
-        Author a1 = builder.birthAYear(1).country("a").name("A").build();
-        Author a2 = builder.birthAYear(2).country("b").name("B").build();
-        Author a3 = builder.birthAYear(3).country("c").name("C").build();
-        Author a4 = builder.birthAYear(4).country("d").name("D").build();
-        list.add(a1);
-        list.add(a2);
-        list.add(a3);
+        Author a1 = new Author.AuthorBuilder().birthAYear(1).country("a").name("A").build();
+        Author a2 = new Author.AuthorBuilder().birthAYear(2).country("b").name("B").build();
+        Author a3 = new Author.AuthorBuilder().birthAYear(3).country("c").name("C").build();
+        Author a4 = new Author.AuthorBuilder().birthAYear(4).country("d").name("D").build();
         list.add(a4);
+        list.add(a3);
+        list.add(a2);
+        list.add(a1);
         List<Author> sortedCopy = new ArrayList<>(list);
         QuickSort.quickSort(list);
         sortedCopy.sort(Comparator.naturalOrder());

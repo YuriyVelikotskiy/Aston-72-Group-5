@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AuthorTest {
 
     @Test
-    @DisplayName("two identical objects must be equal")
+    @DisplayName("Два одинаковых обьекта должны быть equals")
     void shouldEqualsTwoEqualObj() {
         Author.AuthorBuilder builder = new Author.AuthorBuilder();
         builder.birthAYear(2000).name("Bober").country("Kurwa");
@@ -18,7 +18,7 @@ public class AuthorTest {
     }
 
     @Test
-    @DisplayName("two different objects must not be equal")
+    @DisplayName("Два разных обьекта должны быть не equals")
     void shouldNotEqualsTwoDifferentObj() {
         Author.AuthorBuilder builder = new Author.AuthorBuilder();
         builder.birthAYear(2000).name("Bober").country("Kurwa");
@@ -29,7 +29,7 @@ public class AuthorTest {
     }
 
     @Test
-    @DisplayName("two identical objects must have the same hash")
+    @DisplayName("Два одинаковых обьекта должны иметь одинаковый hashCode")
     void shouldHaveSameHashCode() {
         Author.AuthorBuilder builder = new Author.AuthorBuilder();
         builder.birthAYear(2000).name("Bober").country("Kurwa");
@@ -40,7 +40,7 @@ public class AuthorTest {
     }
 
     @Test
-    @DisplayName("two different objects must not have the same hash")
+    @DisplayName("Два разных обьекта должны иметь разный hashCode")
     void shouldNotHaveSameHashCode() {
         Author.AuthorBuilder builder = new Author.AuthorBuilder();
         builder.birthAYear(2000).name("Bober").country("Kurwa");
@@ -51,7 +51,7 @@ public class AuthorTest {
     }
 
     @Test
-    @DisplayName("test compareTo without Strategy")
+    @DisplayName("Тест compareTo при отсутствии реализованной стратегии")
     void shouldComparingByCountry() {
 
         Author.AuthorBuilder builder = new Author.AuthorBuilder();
