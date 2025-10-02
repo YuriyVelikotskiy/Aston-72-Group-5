@@ -1,7 +1,7 @@
-package DataProcessor;
+package dataProcessor;
 
 import CashCreater.CashReader;
-import Model.DataProvider;
+import model.DataProvider;
 
 public class FileDataProcessor extends DataProcessor {
 
@@ -11,16 +11,15 @@ public class FileDataProcessor extends DataProcessor {
 
     @Override
     public boolean hasData() {
-
         try {
             System.out.println("Try read cash");
             var inPutArray = CashReader.getArrayList();
-            DataProvider.addAll(inPutArray);
-        } catch (IllegalArgumentException e){
+            dataProvider.addAll(inPutArray);
+        } catch (IllegalArgumentException e) {
             System.out.println(e + "\nCash-file is not valid");
         }
 
-        if (!DataProvider.isEmpty()) {
+        if (!dataProvider.isEmpty()) {
             System.out.println("Cash-file is readied");
             return true;
         } else if (nextProcessor != null) {
