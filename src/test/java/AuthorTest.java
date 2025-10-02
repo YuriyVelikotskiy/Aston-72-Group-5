@@ -91,4 +91,21 @@ public class AuthorTest {
     }
 
 
+    @Test
+    @DisplayName("Проверка рефлексивности equals")
+    void equalsReflectivity() {
+        Author a1 = new Author.AuthorBuilder().birthAYear(2000).name("Bober").country("Kurwa").build();
+        assertEquals(a1, a1);
+    }
+
+    @Test
+    @DisplayName("Проверка симметричности equals")
+    void equalsSymmetric() {
+        Author a1 = new Author.AuthorBuilder().birthAYear(2000).name("Bober").country("Kurwa").build();
+        Author a2 = new Author.AuthorBuilder().birthAYear(1952).name("Kurwa").country("Bober").build();
+        Author a3 = new Author.AuthorBuilder().birthAYear(2000).name("Bober").country("Kurwa").build();
+        assertTrue(a1.equals(a2) == a2.equals(a1)); //проверка equals == false
+        assertTrue(a1.equals(a3) == a3.equals(a1)); //проверка equals == true
+    }
+
 }
