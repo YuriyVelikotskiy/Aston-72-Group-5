@@ -3,6 +3,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 public class AuthorTest {
 
@@ -67,4 +68,27 @@ public class AuthorTest {
         a1 = builder.country("A").build();
         assertEquals(0, a1.compareTo(a2));
     }
+
+    @Test
+    @DisplayName("equals = одинаковый hashCode")
+    void equalsImpliesSameHashCode() {
+        Author a1 = new Author.AuthorBuilder().birthAYear(2000).name("Bober").country("Kurwa").build();
+        Author a2 = new Author.AuthorBuilder().birthAYear(2000).name("Bober").country("Kurwa").build();
+
+        assertEquals(a1, a2);
+        assertEquals(a1.hashCode(), a2.hashCode());
+    }
+
+
+    @Test
+    @DisplayName("Разный hashCode = объекты не равны (если хэши действительно различны)")
+    void differentHashImpliesNotEquals() {
+        Author a1 = new Author.AuthorBuilder().birthAYear(1990).name("Alice").country("RU").build();
+        Author a2 = new Author.AuthorBuilder().birthAYear(1991).name("Bob").country("US").build();
+
+        assumeTrue(a1.hashCode() != a2.hashCode(), "Редкая коллизия: не удалось получить разные хэши");
+        assertNotEquals(a1, a2);
+    }
+
+
 }
