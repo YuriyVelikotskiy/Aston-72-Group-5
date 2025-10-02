@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 import readStrategy.ReadStrategyProvider;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ReadStrategyProviderTest {
     ReadStrategyProvider readStrategyProvider = new ReadStrategyProvider();
@@ -14,5 +15,10 @@ class ReadStrategyProviderTest {
     @Test
     void strategyProviderShouldReadFromConsole(){
         readStrategyProvider.strategy(3);
+    }
+
+    @Test
+    void strategyShouldThrowException(){
+        assertThrows(IllegalArgumentException.class,() ->readStrategyProvider.strategy(4));
     }
 }
