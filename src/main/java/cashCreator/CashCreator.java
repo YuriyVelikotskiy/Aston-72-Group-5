@@ -33,7 +33,7 @@ public class CashCreator {
     /// Ленивая инициализация
     public static synchronized CashCreator getInstance() {
         if (instance == null) {
-            return new CashCreator();
+            instance = new CashCreator();
         }
         return instance;
     }
