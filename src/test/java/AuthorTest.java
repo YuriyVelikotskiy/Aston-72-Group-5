@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+
 public class AuthorTest {
 
     @Test
@@ -107,5 +108,4 @@ public class AuthorTest {
         assertTrue(a1.equals(a2) == a2.equals(a1)); //проверка equals == false
         assertTrue(a1.equals(a3) == a3.equals(a1)); //проверка equals == true
     }
-
 }
