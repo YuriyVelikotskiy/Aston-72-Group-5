@@ -10,25 +10,25 @@ import java.util.concurrent.Future;
 
 public final class QuickSort {
 
-    ///  Constructor for first call
+    ///  Конструктор первого вызова
     public static <T extends Comparable <? super T>> void quickSort(List<T> list) {
         if (list.size() < 2) return;
-        Comparator <? super T> cmp = Comparator.naturalOrder();
+        Comparator<? super T> cmp = Comparator.nullsLast(Comparator.naturalOrder());
         quickSortTwoThreads(list, cmp);
     }
 
-    /// Constructor for first call with reverseOrder
+    /// Конструктор первого вызова с флагом для выбора сортировки (naturalOrder/reverseOrder)
     public static <T extends Comparable<? super T>> void quickSort(List<T> list, boolean ascending) {
         if (list.size() < 2) return;
 
-        Comparator<? super T> cmp = ascending
-                ? Comparator.naturalOrder()
+        Comparator<? super T> base = ascending ? Comparator.naturalOrder()
                 : Comparator.reverseOrder();
+        Comparator<? super T> cmp = Comparator.nullsLast(base);
 
         quickSortTwoThreads(list, cmp);
     }
 
-    /// MultiThreading
+    /// Конструктор который распараллеливает сортировку на два потока
     private static <T> void quickSortTwoThreads(List<T> list, Comparator<? super T> cmp) {
 
         int low = 0, high = list.size() - 1;
@@ -53,7 +53,7 @@ public final class QuickSort {
         }
     }
 
-    /// Constructor for recursion
+    /// Конструктор для рекурсии
     private static <T> void quickSort(List<T> a, int low, int high, Comparator<? super T> cmp) {
         if (low >= high) return;
         int p = partition(a, low, high, cmp);
@@ -75,7 +75,7 @@ public final class QuickSort {
         return i + 1;
     }
 
-    /// follow DRY
+    /// следование паттерну DRY
     private static <T> void swap(List<T> a, int i, int j) {
         T temp = a.get(i);
         a.set(i, a.get(j));
@@ -87,8 +87,8 @@ public final class QuickSort {
         return cmp.compare(x, y);
     }*/
 
-    /// To avoid the worst case.
-    /// Swap median to high, Lomuto expect pivot there
+    /// Логика для избежания худшего случая O(n^2)
+    /// Выбираем медианный элемент, и переносим его в high. Алгоритм Lomuto ожидает опорную точку(pivot) в переменной high
     private static <T> void moveMedianOfThreeToHigh(List<T> a, int low, int high, Comparator<? super T> cmp) {
         int mid = low + (high - low) / 2;
 
