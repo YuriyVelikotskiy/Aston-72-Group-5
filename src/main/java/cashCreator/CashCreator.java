@@ -128,4 +128,8 @@ public class CashCreator {
             return toCash;
         }
     }
+
+    public Thread getCashThread() {
+        return cashThread;
+    }
 }
