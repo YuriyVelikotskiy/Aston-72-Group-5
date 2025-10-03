@@ -7,7 +7,7 @@ public class Config {
 
     /// Пути для работы с файлами
     private static final String CASHDIR = System.getProperty("user.dir") + "\\src\\cash\\";
-    private static final String CASHPATH = CASHDIR + "cash";
+    private static final String CASHPATH = CASHDIR+"cash";
     private static final String DATAHOLDER = System.getProperty("user.dir") + "\\src\\randomDataHolder\\";
     private static final String TILES = "bookTiles.txt";
     private static final String GENERS = "geners";
