@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
+/// API
+/// getRandomAuthors(size) -> получение авторов
+/// getRandomBooks(size) -> получение книг
+/// getRandomPublishers(size) -> получение издателей
 /// Класс создает объекты на основе выборки случайных фрагментов данных из файла.
 /// Возвращает списки объектов
 /// список не может быть меньше 1 элемента
@@ -57,11 +60,16 @@ public class Randomization {
         return (int) (Math.random() * (max - min + 1)) + min;
     }
 
+
+
     /// Получение случайной даты
+
+    private static int getRandomBirthDate() {
+        return randomInt(0, LocalDate.now().getYear() - 16);
+    }
     private static int getRandomDate() {
         return randomInt(0, LocalDate.now().getYear());
     }
-
     /// Метод получения случайной строки по названию файла с данными
     private static String getRandomString(List<String> list) {
         return list.get(RANDOM.nextInt(list.size()));
@@ -75,7 +83,7 @@ public class Randomization {
             for (int i = 0; i < listSize; i++) {
                 randomList.add(builder.name(getRandomString(namesList))
                         .country(getRandomString(countryList))
-                        .birthAYear(getRandomDate()).build());
+                        .birthAYear(getRandomBirthDate()).build());
             }
             return randomList;
         } else {
@@ -117,4 +125,6 @@ public class Randomization {
         }
 
     }
+
+
 }
