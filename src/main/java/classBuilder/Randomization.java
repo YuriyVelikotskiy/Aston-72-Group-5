@@ -1,9 +1,9 @@
 package classBuilder;
 
+import config.Config;
+
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +18,6 @@ import java.util.Random;
 /// список не может быть меньше 1 элемента
 
 public class Randomization {
-    /// Ссылки на файлы содержащие списки
-    private static final String DATAHOLDER = System.getProperty("user.dir") + "\\src\\randomDataHolder\\";
-    private static final String TILES = "bookTiles.txt";
-    private static final String GENERS = "geners";
-    private static final String NAMES = "names";
-    private static final String COUNTRY = "country";
-    private static final String PUBLISHNAMES = "publishName";
-    private static final String CITY = "city";
     /// Класс рандомизации
     private static final Random RANDOM = new Random();
 
@@ -37,19 +29,13 @@ public class Randomization {
     private static final List<String> publishNameList;
 
     static {
-        Path dataPathNames = Paths.get(DATAHOLDER + NAMES);
-        Path dataPathCountry = Paths.get(DATAHOLDER + COUNTRY);
-        Path dataPathCity = Paths.get(DATAHOLDER + CITY);
-        Path dataPathGeners = Paths.get(DATAHOLDER + GENERS);
-        Path dataPathTitle = Paths.get(DATAHOLDER + TILES);
-        Path dataPathPublisher = Paths.get(DATAHOLDER + PUBLISHNAMES);
         try {
-            namesList = Files.readAllLines(dataPathNames);
-            countryList = Files.readAllLines(dataPathCountry);
-            cityList = Files.readAllLines(dataPathCity);
-            genersList = Files.readAllLines(dataPathGeners);
-            titleList = Files.readAllLines(dataPathTitle);
-            publishNameList = Files.readAllLines(dataPathPublisher);
+            namesList = Files.readAllLines(Config.getPathNames());
+            countryList = Files.readAllLines(Config.getPathCountry());
+            cityList = Files.readAllLines(Config.getPathCity());
+            genersList = Files.readAllLines(Config.getPathGenres());
+            titleList = Files.readAllLines(Config.getPathTitle());
+            publishNameList = Files.readAllLines(Config.getPathPublisher());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

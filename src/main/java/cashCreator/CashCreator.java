@@ -1,11 +1,11 @@
 package cashCreator;
 
+import config.Config;
 import classBuilder.CashedClass;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 /// Метод start(список, путь, true) использует запись с добавлением в конец.
 /// В случае если файл не существует, то создастся новый файл
 public class CashCreator {
-    private static final Path CASHPATH = Paths.get(System.getProperty("user.dir") + "\\cash");
     private static CashCreator instance;
     private Thread cashThread;
     private final BlockingQueue<CashTask> queue = new LinkedBlockingQueue<>();
@@ -26,7 +25,7 @@ public class CashCreator {
     /// Метод получения Instance с защитой от рефлексии
     private CashCreator() {
         if (instance != null) {
-            throw new IllegalStateException("CashCreater Already exist");
+            throw new IllegalStateException("CashCreator Already exist");
         }
     }
 
@@ -40,7 +39,7 @@ public class CashCreator {
 
     /// Метод создания кеша по умолчанию (берет путь из CASHPATH)
     public void start(List<? extends CashedClass> list) {
-        start(new CashTask(list,CASHPATH));
+        start(new CashTask(list, Config.getCASHPATH()));
     }
     /// Метод создания кеша с указанием пути
     public void start(List<? extends CashedClass> list, Path path) {
