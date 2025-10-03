@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
+/// API
+/// getRandomAuthors(size) -> получение авторов
+/// getRandomBooks(size) -> получение книг
+/// getRandomPublishers(size) -> получение издателей
 /// Класс создает объекты на основе выборки случайных фрагментов данных из файла.
 /// Возвращает списки объектов
 /// список не может быть меньше 1 элемента
@@ -123,8 +126,5 @@ public class Randomization {
 
     }
 
-    public static void main(String[] args) {
 
-
-    }
 }
