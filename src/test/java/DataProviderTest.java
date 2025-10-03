@@ -35,32 +35,23 @@ class DataProviderTest {
         dataProvider.clear();
     }
 
-
     @Test
-    @DisplayName("Тест вызова Instance")
-    void getInstance() {
+    @DisplayName("Тест иммутабельности DataProvider")
+    void dataProviderShouldBeSame() {
         DataProvider newDataProvider = DataProvider.getInstance();
-        newDataProvider.add(authorFirst);
-        assertSame(newDataProvider.isEmpty(), dataProvider.isEmpty());
-        assertSame(newDataProvider.getClazz(), dataProvider.getClazz());
-        dataProvider.add(authorSecond);
-        assertSame(newDataProvider.isEmpty(), dataProvider.isEmpty());
-        assertSame(newDataProvider.getClazz(), dataProvider.getClazz());
-        dataProvider.clear();
-        assertTrue(dataProvider.isEmpty());
-        assertTrue(newDataProvider.isEmpty());
+        assertSame(newDataProvider, dataProvider);
     }
 
     @Test
     @DisplayName("Тест вызова getData")
-    void getData() {
+    void inPutOutPutShouldBeSame() {
         dataProvider.addAll(arrayList);
         assertEquals(dataProvider.getData(), arrayList);
     }
 
     @Test
     @DisplayName("Тест вызова isEmpty")
-    void isEmpty() {
+    void afterAddShouldNotBeEmpty() {
         assertTrue(dataProvider.isEmpty());
         dataProvider.add(authorFirst);
         assertFalse(dataProvider.isEmpty());
@@ -68,7 +59,7 @@ class DataProviderTest {
 
     @Test
     @DisplayName("Тест вызова getClazz")
-    void getClazz() {
+    void afterAddShouldReturnClass() {
         assertNull(dataProvider.getClazz());
         dataProvider.add(authorFirst);
         assertEquals(dataProvider.getClazz(), authorFirst.getClass());
@@ -76,7 +67,7 @@ class DataProviderTest {
 
     @Test
     @DisplayName("Тест вызова clear")
-    void clear() {
+    void afterAddShouldBeEmpty() {
         dataProvider.add(authorFirst);
         assertFalse(dataProvider.isEmpty());
         dataProvider.clear();
@@ -85,14 +76,14 @@ class DataProviderTest {
 
     @Test
     @DisplayName("Тест вызова add")
-    void add() {
+    void afterAddShouldBeException() {
         dataProvider.add(authorFirst);
         assertThrows(IllegalArgumentException.class,() -> dataProvider.add(bookFirst));
     }
 
     @Test
-    @DisplayName("Тест вызова ddAll")
-    void addAll() {
+    @DisplayName("Тест вызова addAll")
+    void afterAddAllShouldBeException() {
         dataProvider.add(bookFirst);
         assertThrows(IllegalArgumentException.class,() -> dataProvider.addAll(arrayList));
         assertThrows(IllegalArgumentException.class,() -> dataProvider.addAll(notValidArrayList));
