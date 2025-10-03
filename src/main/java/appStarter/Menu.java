@@ -1,5 +1,7 @@
 package appStarter;
 
+import appConfiguration.MessageConfigurator;
+
 public class Menu {
 
     public static void showFullStartupMenu() {
@@ -21,10 +23,10 @@ public class Menu {
     public static void showCreationMenu(){
         System.out.println(
                 MessageConfigurator.CHOOSE_METHOD+"\n"+
-                "1."+MessageConfigurator.FILE_METHOD+"\n" +
-                "2."+MessageConfigurator.RANDOM_METHOD+"\n"+
-                "3."+MessageConfigurator.MANUAL_METHOD+"\n"+
-                "4."+MessageConfigurator.EXIT
+                        "1."+MessageConfigurator.FILE_METHOD+"\n" +
+                        "2."+MessageConfigurator.RANDOM_METHOD+"\n"+
+                        "3."+MessageConfigurator.MANUAL_METHOD+"\n"+
+                        "4."+MessageConfigurator.EXIT
         );
     }
 

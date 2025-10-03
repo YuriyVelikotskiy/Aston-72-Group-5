@@ -1,15 +1,19 @@
 package appStarter;
 
 public class MenuManager {
-    private int minButtons;
-    private int maxButtons;
+    private final int numButtons;
+    private final String menuName;
 
-    public MenuManager(int minButtons, int maxButtons) {
-        this.minButtons = minButtons;
-        this.maxButtons = maxButtons;
+    public MenuManager(String menuName, int numButtons) {
+        this.menuName=menuName;
+        this.numButtons=numButtons;
+    }
+
+    public String getMenuName() {
+        return menuName;
     }
 
     public boolean isValidInput(int option){
-        return option>=minButtons && option<=maxButtons;
+        return option<=numButtons && option>0;
     }
 }

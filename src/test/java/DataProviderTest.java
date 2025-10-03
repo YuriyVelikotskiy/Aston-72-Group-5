@@ -21,7 +21,7 @@ class DataProviderTest {
     static Book bookFirst;
 
     @BeforeAll
-    private static void init() {
+    public static void init() {
         dataProvider = DataProvider.getInstance();
         authorFirst = new Author.AuthorBuilder().name("AB Filatof").birthAYear(1997).country("Russia").build();
         authorSecond = new Author.AuthorBuilder().build();
@@ -31,7 +31,7 @@ class DataProviderTest {
     }
 
     @AfterEach
-    private void cleanUpEach(){
+    public void cleanUpEach(){
         dataProvider.clear();
     }
 
