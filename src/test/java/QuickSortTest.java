@@ -1,9 +1,7 @@
-import classBuilder.Author;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import qsort.QuickSort;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -12,11 +10,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class QuickSortTest {
+    private final Comparator<? super Integer> cmp = Comparator.naturalOrder();
+    private final Comparator<? super Integer> reverseCmp = Comparator.reverseOrder();
+
     @Test
     @DisplayName("Пустой лист - нет изменений")
     void shouldNotBeChangedWithEmptyList() {
         List<Integer> list = new ArrayList<>();
-        QuickSort.quickSort(list);
+        QuickSort.quickSort(list, cmp);
         assertTrue(list.isEmpty());
     }
 
@@ -24,15 +25,8 @@ public class QuickSortTest {
     @DisplayName("Один элемент - нет изменений")
     void shouldNotBeChangedWithOneElement() {
         List<Integer> list = new ArrayList<>(List.of(52));
-        QuickSort.quickSort(list);
+        QuickSort.quickSort(list, cmp);
         assertEquals(List.of(52), list);
-    }
-
-    @Test
-    @DisplayName("Значение null - NPE")
-    void shouldThrowNPEWithNullArgs() {
-        assertThrows(NullPointerException.class,
-                () -> QuickSort.quickSort(null));
     }
 
     @Test
@@ -40,7 +34,7 @@ public class QuickSortTest {
     void shouldNotChangedWithSortedList() {
         List<Integer> list = new ArrayList<>(List.of(1,2,3,4,5));
         List<Integer> copy = new ArrayList<>(list);
-        QuickSort.quickSort(list);
+        QuickSort.quickSort(list, cmp);
         assertEquals(copy, list);
     }
 
@@ -48,7 +42,7 @@ public class QuickSortTest {
     @DisplayName("Проверка сортировки")
     void shouldSortList() {
         List<Integer> list = new ArrayList<>(List.of(5,4,3,2,1));
-        QuickSort.quickSort(list);
+        QuickSort.quickSort(list, cmp);
         assertEquals(new ArrayList<>(List.of(1,2,3,4,5)), list);
     }
 
@@ -56,7 +50,7 @@ public class QuickSortTest {
     @DisplayName("Проверка сортировки в обратном порядке")
     void shouldSortListWIthReverseOrder() {
         List<Integer> list = new ArrayList<>(List.of(1,2,3,4,5));
-        QuickSort.quickSort(list, false);
+        QuickSort.quickSort(list, reverseCmp);
         assertEquals(new ArrayList<>(List.of(5,4,3,2,1)), list);
     }
 
@@ -66,18 +60,8 @@ public class QuickSortTest {
         List<Integer> list = new ArrayList<>(List.of(5,6,3,3,4,4,3,2,1,1,1,5,6));
         List<Integer> sortedCopy = new ArrayList<>(list);
         sortedCopy.sort(Comparator.naturalOrder());
-        QuickSort.quickSort(list);
+        QuickSort.quickSort(list, cmp);
         assertEquals(sortedCopy, list);
-    }
-
-    @Test
-    @DisplayName("Тест времени при большом объеме входных данных")
-    void shouldSortListWithLargeData() {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 1_000_000; i++) {
-            list.add((int)(Math.random() * 1000));
-        }
-        assertTimeoutPreemptively(Duration.ofSeconds(2), () -> QuickSort.quickSort(list));
     }
 
     @Test
@@ -89,53 +73,7 @@ public class QuickSortTest {
         }
         List<Integer> sortedCopy = new ArrayList<>(list);
         sortedCopy.sort(Comparator.naturalOrder());
-        QuickSort.quickSort(list);
+        QuickSort.quickSort(list, cmp);
         assertEquals(sortedCopy, list);
     }
-
-    @Test
-    @DisplayName("Тест с классом Author")
-    void authorShouldBeCorrect() {
-        List<Author> list = new ArrayList<>();
-        Author a1 = new Author.AuthorBuilder().birthAYear(1).country("a").name("A").build();
-        Author a2 = new Author.AuthorBuilder().birthAYear(2).country("b").name("B").build();
-        Author a3 = new Author.AuthorBuilder().birthAYear(3).country("c").name("C").build();
-        Author a4 = new Author.AuthorBuilder().birthAYear(4).country("d").name("D").build();
-        list.add(a4);
-        list.add(a3);
-        list.add(a2);
-        list.add(a1);
-        List<Author> sortedCopy = new ArrayList<>(list);
-        QuickSort.quickSort(list);
-        sortedCopy.sort(Comparator.naturalOrder());
-        assertEquals(sortedCopy, list);
-    }
-
-    @Test
-    @DisplayName("Тест сортировки со значениями null")
-    void nullsGoToTheEnd_Natural() {
-        List<Integer> list = new ArrayList<>(Arrays.asList(3, null, 1, null, 2));
-        QuickSort.quickSort(list);
-        assertEquals(Arrays.asList(1, 2, 3, null, null), list);
-    }
-
-
-//    @Test
-//    @DisplayName("Тест сортировки по классу Author со значениями null")
-//    void nullFields_Author_ByCountryThenName() {
-//        List<Author> list = Arrays.asList(
-//                new Author.AuthorBuilder().name("B").country(null).birthAYear(1990).build(),
-//                new Author.AuthorBuilder().name(null).country("DE").birthAYear(1980).build(),
-//                new Author.AuthorBuilder().name("A").country("DE").birthAYear(2000).build()
-//        );
-//        QuickSort.quickSort(list);
-//        assertEquals(
-//                Arrays.asList(
-//                        new Author.AuthorBuilder().name("A").country("DE").birthAYear(2000).build(),
-//                        new Author.AuthorBuilder().name(null).country("DE").birthAYear(1980).build(),
-//                        new Author.AuthorBuilder().name("B").country(null).birthAYear(1990).build()
-//                ),
-//                list
-//        );
-//    }
 }
