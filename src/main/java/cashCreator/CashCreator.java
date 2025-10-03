@@ -39,16 +39,16 @@ public class CashCreator {
     }
 
     /// Метод создания кеша по умолчанию (берет путь из CASHPATH)
-    public void start(ArrayList<CashedClass> list) {
+    public void start(ArrayList<? extends CashedClass> list) {
         start(new CashTask(list,CASHPATH));
     }
     /// Метод создания кеша с указанием пути
-    public void start(ArrayList<CashedClass> list, Path path) {
+    public void start(ArrayList<? extends CashedClass> list, Path path) {
         start(new CashTask(list,path));
     }
 
     ///Метод с указанием пути и режимом добавления данных
-    public void start(ArrayList<CashedClass> list, Path path, boolean addMode) {
+    public void start(ArrayList<? extends CashedClass> list, Path path, boolean addMode) {
         start(new CashTask(list,path).setAddMode(addMode));
     }
 
@@ -101,11 +101,11 @@ public class CashCreator {
     }
     /// Задача под запись
     private static class CashTask{
-        private final ArrayList<CashedClass> toCash;
+        private final ArrayList<? extends CashedClass> toCash;
         private boolean addMode = false;
         private final Path path;
 
-        public CashTask(ArrayList<CashedClass> toCash,Path path){
+        public CashTask(ArrayList<? extends CashedClass> toCash,Path path){
             this.toCash = toCash;
             this.path = path;
         }
@@ -125,7 +125,7 @@ public class CashCreator {
             return addMode;
         }
 
-        public ArrayList<CashedClass> getToCash() {
+        public ArrayList<? extends CashedClass> getToCash() {
             return toCash;
         }
     }

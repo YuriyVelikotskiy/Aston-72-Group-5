@@ -1,12 +1,8 @@
-import classBuilder.Author;
-import classBuilder.Book;
-import classBuilder.Publisher;
-import classBuilder.Randomization;
+import classBuilder.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -69,9 +65,9 @@ public class RandomizationTest {
     void shouldNotThrowExceptions() {
         int size = 10000;
         assertDoesNotThrow(() ->{
-            ArrayList<Author> testAuthors= Randomization.getRandomAuthors(size);
-            ArrayList<Publisher> testPublisher= Randomization.getRandomPublishers(size);
-            ArrayList<Book> testAuthor= Randomization.getRandomBooks(size);
+            Randomization.getRandomAuthors(size);
+            Randomization.getRandomPublishers(size);
+            Randomization.getRandomBooks(size);
         });
     }
 }
