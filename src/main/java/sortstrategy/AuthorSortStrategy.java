@@ -1,12 +1,11 @@
-package sortstrategybyfields;
+package sortstrategy;
 
 import classBuilder.Author;
-import qsort.QuickSort;
 
 import java.util.Comparator;
 import java.util.Map;
 
-public final class AuthorFieldSortStrategy extends BaseFieldSortStrategy<Author> {
+public final class AuthorSortStrategy extends BaseSortStrategy<Author> {
 
     private static final Comparator<Author> BY_COUNTRY =
             Comparator.comparing(Author::getCountry, Comparator.nullsLast(String::compareTo));
@@ -20,7 +19,7 @@ public final class AuthorFieldSortStrategy extends BaseFieldSortStrategy<Author>
         return Map.of(
                 "country", BY_COUNTRY,
                 "name", BY_NAME,
-                "birthAYear", BY_BIRTH_YEAR
+                "birthayear", BY_BIRTH_YEAR
         );
     }
 }

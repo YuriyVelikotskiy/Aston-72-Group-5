@@ -1,12 +1,11 @@
-package sortstrategybyfields;
+package sortstrategy;
 
 import classBuilder.Publisher;
-import qsort.QuickSort;
 
 import java.util.Comparator;
 import java.util.Map;
 
-public final class PublisherFieldSortStrategy extends BaseFieldSortStrategy<Publisher> {
+public final class PublisherSortStrategy extends BaseSortStrategy<Publisher> {
 
     private static final Comparator<Publisher> BY_CITY =
             Comparator.comparing(Publisher::getCity, Comparator.nullsLast(String::compareTo));
@@ -18,9 +17,9 @@ public final class PublisherFieldSortStrategy extends BaseFieldSortStrategy<Publ
     @Override
     protected Map<String, Comparator<Publisher>> comparators() {
         return Map.of(
-                "country", BY_CITY,
+                "city", BY_CITY,
                 "name", BY_NAME,
-                "birthAYear", BY_YEAR
+                "foundingyear", BY_YEAR
         );
     }
 }

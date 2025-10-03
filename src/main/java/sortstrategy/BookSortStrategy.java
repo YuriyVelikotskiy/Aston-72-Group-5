@@ -1,12 +1,11 @@
-package sortstrategybyfields;
+package sortstrategy;
 
 import classBuilder.Book;
-import qsort.QuickSort;
 
 import java.util.Comparator;
 import java.util.Map;
 
-public final class BookFieldSortStrategy extends BaseFieldSortStrategy<Book> {
+public final class BookSortStrategy extends BaseSortStrategy<Book> {
 
     private static final Comparator<Book> BY_GENRE =
             Comparator.comparing(Book::getGenre, Comparator.nullsLast(String::compareTo));
@@ -20,7 +19,7 @@ public final class BookFieldSortStrategy extends BaseFieldSortStrategy<Book> {
         return Map.of(
                 "genre", BY_GENRE,
                 "tile", BY_TILE,
-                "year", BY_YEAR
+                "yearpublished", BY_YEAR
         );
     }
 }
