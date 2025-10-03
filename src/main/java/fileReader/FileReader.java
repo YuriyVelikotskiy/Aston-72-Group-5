@@ -4,14 +4,19 @@ import classBuilder.Author;
 import classBuilder.Book;
 import classBuilder.CashedClass;
 import classBuilder.Publisher;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import config.Config;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+
+
+/// API использования
+/// readFile(String путь, класс ожидаемого объекта)
+/// readFile(Path путь, класс ожидаемого объекта)
+/// возвращает список указанных элементов, в случае если невозможно получить выдает исключение IOException
 
 public class FileReader {
     /// Вызов получения данных по строке
@@ -27,7 +32,7 @@ public class FileReader {
             throw new IOException("ошибка чтения файла");
         }
     }
-    ///
+    ///Получение данных
     private static <T extends CashedClass> List<T> getDataFromFile(Path path, Class<T> type) throws IOException {
         List<String> fileData = Files.readAllLines(path);
         try {
@@ -37,8 +42,8 @@ public class FileReader {
         }
 
     }
-
-    private static <T extends CashedClass> List<T> createList(List<String> fileData, Class<T> type) throws JsonProcessingException {
+    /// Создаем списки объектов в зависимости отт переданного класса
+    private static <T extends CashedClass> List<T> createList(List<String> fileData, Class<T> type) throws IOException {
         List<T> objList = new LinkedList<>();
         if (type == Author.class) {
             for (String data : fileData) {
@@ -53,25 +58,17 @@ public class FileReader {
             for (String data : fileData) {
                 objList.add(type.cast(Publisher.jsonBuild(data)) );
             }
+        }else {
+            throw new IOException("Ошибка типизации, проверьте правильность записи в файл");
         }
         return objList;
     }
 
-
+    /// Проверка на существование и доступность файла
     private static boolean isFileExist(Path path) {
         return Files.exists(path) &&
                 Files.isRegularFile(path) &&
                 Files.isReadable(path);
     }
 
-    public static void main(String[] args) {
-        Path path = Config.getCASHPATH();
-        try {
-            List<Author> test = readFile(path,Author.class);
-            test.forEach(x -> System.out.println(x.getFullName()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 }
