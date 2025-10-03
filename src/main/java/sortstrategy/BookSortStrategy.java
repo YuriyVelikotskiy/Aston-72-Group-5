@@ -5,6 +5,9 @@ import classBuilder.Book;
 import java.util.Comparator;
 import java.util.Map;
 
+    /// Реализация абстрактного базового класса для объекта Book
+    /// Переопределяем только Map с компараторами
+
 public final class BookSortStrategy extends BaseSortStrategy<Book> {
 
     private static final Comparator<Book> BY_GENRE =

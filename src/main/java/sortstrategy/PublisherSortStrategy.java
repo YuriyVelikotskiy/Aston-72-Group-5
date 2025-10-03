@@ -5,6 +5,9 @@ import classBuilder.Publisher;
 import java.util.Comparator;
 import java.util.Map;
 
+    /// Реализация абстрактного базового класса для объекта Publisher
+    /// Переопределяем только Map с компараторами
+
 public final class PublisherSortStrategy extends BaseSortStrategy<Publisher> {
 
     private static final Comparator<Publisher> BY_CITY =

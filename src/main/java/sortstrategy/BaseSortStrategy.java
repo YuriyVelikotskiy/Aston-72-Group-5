@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+    /// Базовый абстрактный класс с реализацией сортировки по полям объекта
+
 public abstract class BaseSortStrategy<T> implements SortStrategy<T> {
 
     protected abstract Map<String, Comparator<T>> comparators();

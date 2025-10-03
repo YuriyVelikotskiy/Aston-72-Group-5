@@ -5,6 +5,8 @@ import classBuilder.Author;
 import java.util.Comparator;
 import java.util.Map;
 
+    /// Реализация абстрактного базового класса для объекта Author
+    /// Переопределяем только Map с компараторами
 public final class AuthorSortStrategy extends BaseSortStrategy<Author> {
 
     private static final Comparator<Author> BY_COUNTRY =
