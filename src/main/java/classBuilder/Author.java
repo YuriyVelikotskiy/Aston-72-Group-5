@@ -13,7 +13,7 @@ import java.util.Objects;
 /// Валидация на возраст автора(не менее 16 лет).
 /// По умолчанию поля остаются null
 
-public class Author extends CashedClass implements Comparable<Author>{
+public class Author extends CashedClass {
     private final String fullName;
     private final String country;
     private final int birthAYear;
@@ -52,13 +52,6 @@ public class Author extends CashedClass implements Comparable<Author>{
         AuthorBuilder builder = mapper.readValue(json, AuthorBuilder.class);
         return builder.build();
     }
-
-    @Override
-    public int compareTo(Author other) {
-        // пример для сравнения по country
-        return getCountry().compareTo(other.getCountry());
-    }
-
 
     //класс билдер
     public static class AuthorBuilder {
