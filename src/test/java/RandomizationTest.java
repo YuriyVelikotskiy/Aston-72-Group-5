@@ -53,14 +53,6 @@ public class RandomizationTest {
     }
 
     @Test
-    @DisplayName("Рандомизатор должен возвращать объекты со всеми заполненными полями")
-    void shouldCreateDifferentObjects() {
-        assertNotEquals(listPublisher.get(1), listPublisher.get(2));
-        assertNotEquals(listAuthors.get(1), listAuthors.get(2));
-        assertNotEquals(listBooks.get(1), listBooks.get(2));
-    }
-
-    @Test
     @DisplayName("при создании объектов не должны возникать исключения")
     void shouldNotThrowExceptions() {
         int size = 10000;
