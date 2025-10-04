@@ -60,6 +60,7 @@ public class Author extends CashedClass implements Comparable<Author>{
     }
 
 
+
     //класс билдер
     public static class AuthorBuilder {
         private String fullName;
@@ -109,4 +110,6 @@ public class Author extends CashedClass implements Comparable<Author>{
                 Objects.equals(country, author.getCountry()) &&
                 Objects.equals(birthAYear, author.getBirthAYear());
     }
+
+
 }
