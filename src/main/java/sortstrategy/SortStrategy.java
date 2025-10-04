@@ -1,12 +1,13 @@
 package sortstrategy;
 
+import java.util.Comparator;
 import java.util.List;
 
     /// Интерфейс для реализации стратегии сортировки по полям объекта
 
 public interface SortStrategy<T> {
 
-    default void sort(List<T> list, String field, boolean ascending) {}
+    Comparator<T> sort(List<T> list, String field, boolean ascending);
 
-    void sort(List<T> list, String field);
+    Comparator<T> sort(List<T> list, String field);
 }
