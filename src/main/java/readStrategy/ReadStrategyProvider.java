@@ -1,21 +1,23 @@
 package readStrategy;
 
-import java.util.HashMap;
+import classBuilder.CashedClass;
+
 import java.util.Map;
 
 public class ReadStrategyProvider {
-    private final Map<Integer, ReadStrategy> mapOfStrategy;
 
-    public ReadStrategyProvider() {
-        mapOfStrategy = new HashMap<>();
-        mapOfStrategy.put(1, new FileReadStrategy());
-        mapOfStrategy.put(2, new RandomStrategy());
-        mapOfStrategy.put(3, new ConsoleReadStrategy());
+    private final Map<Integer, ReadStrategy> strategyMap;
+
+    public ReadStrategyProvider(Class<? extends CashedClass> type, int listSize) {
+        strategyMap = Map.of(1, new ConsoleReadStrategy(type, listSize),
+                2, new FileReadStrategy(type),
+                3, new RandomStrategy(type, listSize));
     }
 
     public void strategy(int answerNumber) {
-        if (mapOfStrategy.containsKey(answerNumber)) {
-            mapOfStrategy.get(answerNumber).read();
-        } else throw new IllegalArgumentException("Такой стратегии нет");
+        if (strategyMap.containsKey(answerNumber)) {
+            strategyMap.get(answerNumber).read();
+        } else throw new IllegalArgumentException();
+
     }
 }

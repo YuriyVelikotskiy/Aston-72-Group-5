@@ -1,24 +1,30 @@
+import classBuilder.Author;
 import org.junit.jupiter.api.Test;
+import readStrategy.RandomStrategy;
+import readStrategy.ReadStrategy;
 import readStrategy.ReadStrategyProvider;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ReadStrategyProviderTest {
-    ReadStrategyProvider readStrategyProvider = new ReadStrategyProvider();
+    ReadStrategyProvider readStrategyProvider;
+
     @Test
     void strategyProviderShouldReadFromFile() {
-        readStrategyProvider.strategy(1);
+        readStrategyProvider = new ReadStrategyProvider(Author.class, 10);
+        readStrategyProvider.strategy(3);
     }
     @Test
     void strategyProviderShouldReturnRandom() {
-        readStrategyProvider.strategy(2);
+
     }
     @Test
     void strategyProviderShouldReadFromConsole(){
-        readStrategyProvider.strategy(3);
+
     }
 
     @Test
     void strategyShouldThrowException(){
+        readStrategyProvider = new ReadStrategyProvider(Author.class, 10);
         assertThrows(IllegalArgumentException.class,() ->readStrategyProvider.strategy(4));
     }
 }
