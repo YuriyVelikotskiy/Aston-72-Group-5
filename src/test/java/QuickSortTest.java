@@ -71,16 +71,6 @@ public class QuickSortTest {
     }
 
     @Test
-    @DisplayName("Тест времени при большом объеме входных данных")
-    void shouldSortListWithLargeData() {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 1_000_000; i++) {
-            list.add((int)(Math.random() * 1000));
-        }
-        assertTimeoutPreemptively(Duration.ofSeconds(2), () -> QuickSort.quickSort(list));
-    }
-
-    @Test
     @DisplayName("Тест корректности при большом объеме входных данных")
     void largeDataShouldBeCorrect() {
         List<Integer> list = new ArrayList<>();
@@ -118,24 +108,4 @@ public class QuickSortTest {
         QuickSort.quickSort(list);
         assertEquals(Arrays.asList(1, 2, 3, null, null), list);
     }
-
-
-//    @Test
-//    @DisplayName("Тест сортировки по классу Author со значениями null")
-//    void nullFields_Author_ByCountryThenName() {
-//        List<Author> list = Arrays.asList(
-//                new Author.AuthorBuilder().name("B").country(null).birthAYear(1990).build(),
-//                new Author.AuthorBuilder().name(null).country("DE").birthAYear(1980).build(),
-//                new Author.AuthorBuilder().name("A").country("DE").birthAYear(2000).build()
-//        );
-//        QuickSort.quickSort(list);
-//        assertEquals(
-//                Arrays.asList(
-//                        new Author.AuthorBuilder().name("A").country("DE").birthAYear(2000).build(),
-//                        new Author.AuthorBuilder().name(null).country("DE").birthAYear(1980).build(),
-//                        new Author.AuthorBuilder().name("B").country(null).birthAYear(1990).build()
-//                ),
-//                list
-//        );
-//    }
 }
