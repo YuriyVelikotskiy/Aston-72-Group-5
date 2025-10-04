@@ -81,7 +81,7 @@ public class DataProvider {
      *                  {@link classBuilder.Publisher Publisher})
      *                  , расширяющие ( {@link CashedClass} )
      */
-    public void addAll(ArrayList<CashedClass> inPutList) {
+    public void addAll(List<? extends CashedClass> inPutList) {
         Class<? extends CashedClass> inPutClass = inPutList.get(0).getClass();
         listIsValid(inPutList, inPutClass);
         tryAdd(() -> data.addAll(inPutList), inPutClass);
@@ -90,7 +90,7 @@ public class DataProvider {
     /**
      * Метод определяет, состоит ли переданный массив из одинаковых объектов
      */
-    private void listIsValid(ArrayList<CashedClass> inPutList, Class<? extends CashedClass> inPutClass) {
+    private void listIsValid(List<? extends CashedClass> inPutList, Class<? extends CashedClass> inPutClass) {
         AtomicInteger atomicInteger = new AtomicInteger();
         Optional<? extends Class<? extends CashedClass>> unValidClass = inPutList.stream()
                 .map(CashedClass::getClass)
