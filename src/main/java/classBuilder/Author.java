@@ -102,4 +102,6 @@ public class Author extends CashedClass {
                 Objects.equals(country, author.getCountry()) &&
                 Objects.equals(birthAYear, author.getBirthAYear());
     }
+
+
 }
