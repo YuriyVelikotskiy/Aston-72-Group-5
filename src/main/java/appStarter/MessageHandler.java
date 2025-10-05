@@ -5,16 +5,15 @@ import cashCreator.CashCreator;
 import classBuilder.CashedClass;
 import dataProvider.DataProvider;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-//TODO оборачивать исключения
-//TODO кеш файл если не был создан, создается только после выхода из программы
-//TODO отображение
-//TODO поиск
 
+//TODO поиск
+//TODO обновление/перезапись
 
 public class MessageHandler {
     private static Scanner scanner;
@@ -22,10 +21,12 @@ public class MessageHandler {
     private static HashMap<String, MenuManager> menuOptions;
     private static MenuManager currentMenu;
     private static DataProvider dataProvider;
+    private static CashCreator cashCreator;
 
     static {
         dataProvider = DataProvider.getInstance();
         scanner = new Scanner(System.in);
+        cashCreator = CashCreator.getInstance();
         initializeMenuOptions();
     }
 
@@ -36,8 +37,7 @@ public class MessageHandler {
         menuOptions.put("showCreationMenu", new MenuManager("showCreationMenu", 4));
     }
 
-
-    public static void startMessage(){
+    public static void startMessage() throws IOException {
         boolean tmp_validation = false;
         if (!dataProvider.isEmpty()){
             Menu.showFullStartupMenu();
@@ -50,7 +50,7 @@ public class MessageHandler {
         }
 
     }
-    private static void processInput(int choise){
+    private static void processInput(int choise) throws IOException {
 
         switch (currentMenu.getMenuName()){
             case "showShortStartupMenu":
@@ -66,7 +66,7 @@ public class MessageHandler {
         }
     }
 
-    private static void processCreationMethod(int choice) {
+    private static void processCreationMethod(int choice){
         switch (choice){
             case 1:
                 readFromFile();
@@ -79,29 +79,43 @@ public class MessageHandler {
         }
     }
 
-    //TODO закончить метод
-    private static void manualInput() {
-
-        list=Input.createManualObjects();
-        cache(list);
-        startMessage();
-
+    private static void manualInput(){
+        try {
+            list=Input.createManualObjects();
+            cache(list);
+            showInputData();
+            startMessage();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            manualInput();
+        }
     }
-    //TODO закончить метод
+
     private static void createRandomData() {
-
-        list=Input.createRandomObjects();
-        System.out.println(list);
-        cache(list);
-        startMessage();
+        try {
+            list=Input.createRandomObjects();
+            cache(list);
+            showInputData();
+            startMessage();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            createRandomData();
+        }
     }
-    //TODO закончить метод
-    private static void readFromFile() {
-        System.out.println("какая - то логика");
-        startMessage();
+
+    private static void readFromFile(){
+        try {
+            list = Input.readFromFile();
+            cache(list);
+            showInputData();
+            startMessage();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            readFromFile();
+        }
     }
 
-    private static void processShortStartupMenu(int choise) {
+    private static void processShortStartupMenu(int choise) throws IOException {
         //TODO посмотреть можно ли сделать цепочку обязанностей
         switch (choise){
             case 1:
@@ -111,13 +125,13 @@ public class MessageHandler {
         }
     }
 
-    private static void processCreationMenu() {
+    private static void processCreationMenu() throws IOException {
         Menu.showCreationMenu();
         currentMenu=menuOptions.get("showCreationMenu");
         processInput(getAnswer());
     }
 
-    private static void processFullStartupMenu(int choise) {
+    private static void processFullStartupMenu(int choise) throws IOException {
        //TODO поменять на ENUM
         switch (choise){
             case 1:
@@ -134,6 +148,7 @@ public class MessageHandler {
                 break;
         }
     }
+
 
 
     //TODO закончить метод
@@ -169,18 +184,20 @@ public class MessageHandler {
         return choise;
     }
 
-
+    private static void showInputData() {
+        System.out.println("Ваши введенные данные:");
+        int counter = 1;
+        for (Object item : list) {
+            System.out.println(counter++ + ". " + item);
+        }
+    }
 
     private static boolean isInputValid(int n){
         return currentMenu.isValidInput(n);
     }
 
     private static void cache(List<?extends CashedClass> list){
-        System.out.println(list);
-
-        CashCreator cashCreator = CashCreator.getInstance();
-        dataProvider.addAll(list);
         cashCreator.start(list);
-
+        dataProvider.addAll(list);
     }
 }
