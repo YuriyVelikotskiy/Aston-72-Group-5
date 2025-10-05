@@ -17,7 +17,7 @@ public final class PartialEvenSort {
                                 Predicate<? super T> selected) {
         // Собираем индексы подходящих элементов
         List<Integer> idx = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) { // [1, 2, 3, 4] -> [0, 2, 0, 4] - 100% не трогать элементы, неподходящие под наши условия
+        for (int i = 0; i < list.size(); i++) { // [1, 2, 3, 4](обьекты) -> [0, 1, 0, 3](индексы) - 100% не трогать элементы, неподходящие под наши условия
             if (selected.test(list.get(i))) idx.add(i); // (predicate)selected.test - проверяем четность, передавать в конструктор
         }
         if (idx.size() < 2) return;
