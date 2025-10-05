@@ -4,9 +4,10 @@ import classBuilder.Publisher;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.ToIntFunction;
 
-    /// Реализация абстрактного базового класса для объекта Publisher
-    /// Переопределяем только Map с компараторами
+/// Реализация абстрактного базового класса для объекта Publisher
+/// Переопределяем только Map с компараторами
 
 public final class PublisherSortStrategy extends BaseSortStrategy<Publisher> {
 
@@ -24,5 +25,10 @@ public final class PublisherSortStrategy extends BaseSortStrategy<Publisher> {
                 "name", BY_NAME,
                 "foundingyear", BY_YEAR
         );
+    }
+
+    @Override
+    protected Map<String, ToIntFunction<Publisher>> intExtractors() {
+        return Map.of("foundingyear", Publisher::getFoundingYear);
     }
 }
