@@ -1,5 +1,7 @@
 package sortstrategy;
 
+import classBuilder.CashedClass;
+
 import java.util.Comparator;
 import java.util.List;
 

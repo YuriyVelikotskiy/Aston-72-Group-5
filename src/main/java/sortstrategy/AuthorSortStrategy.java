@@ -22,7 +22,7 @@ public final class AuthorSortStrategy extends BaseSortStrategy<Author> {
     protected Map<String, Comparator<Author>> comparators() {
         return Map.of(
                 "country", BY_COUNTRY,
-                "name", BY_NAME,
+                "fullname", BY_NAME,
                 "birthayear", BY_BIRTH_YEAR
         );
     }

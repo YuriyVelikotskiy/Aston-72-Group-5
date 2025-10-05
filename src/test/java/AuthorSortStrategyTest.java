@@ -38,7 +38,7 @@ public class AuthorSortStrategyTest {
     @Test
     @DisplayName("Тест сортировки авторов по имени")
     void authorsShouldBeSortedByName() {
-        new AuthorSortStrategy().sort(authorList, "name");
+        new AuthorSortStrategy().sort(authorList, "fullName");
         expectedAuthorList.sort(Comparator.comparing(
                 Author::getFullName,
                 Comparator.nullsLast(String::compareToIgnoreCase)
@@ -49,7 +49,7 @@ public class AuthorSortStrategyTest {
     @Test
     @DisplayName("Тест сортировки авторов по имени в обратном порядке")
     void authorsShouldBeSortedByNameWithReversedOrder() {
-        new AuthorSortStrategy().sort(authorList, "name", false);
+        new AuthorSortStrategy().sort(authorList, "fullName", false);
         expectedAuthorList.sort(Comparator.comparing(
                 Author::getFullName,
                 Comparator.nullsLast(String::compareToIgnoreCase).reversed()

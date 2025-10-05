@@ -1,5 +1,6 @@
 package sortstrategy;
 
+import classBuilder.CashedClass;
 import qsort.PartialEvenSort;
 import qsort.QuickSort;
 

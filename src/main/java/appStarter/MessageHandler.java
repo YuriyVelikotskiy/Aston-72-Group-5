@@ -1,27 +1,29 @@
 package appStarter;
 
 
+import binarySearch.BinarySearch;
 import cashCreator.CashCreator;
 import classBuilder.CashedClass;
 import dataProvider.DataProvider;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
+
+import static appStarter.Menu.*;
+import static appStarter.UseSortStrategy.sortOnlyEvenValues;
+import static appStarter.UseSortStrategy.useSortStrategy;
 
 
 //TODO поиск
 //TODO обновление/перезапись
 
 public class MessageHandler {
-    private static Scanner scanner;
+    private static final Scanner scanner;
     private static List<? extends CashedClass> list;
     private static HashMap<String, MenuManager> menuOptions;
     private static MenuManager currentMenu;
-    private static DataProvider dataProvider;
-    private static CashCreator cashCreator;
+    private static final DataProvider dataProvider;
+    private static final CashCreator cashCreator;
 
     static {
         dataProvider = DataProvider.getInstance();
@@ -29,17 +31,24 @@ public class MessageHandler {
         cashCreator = CashCreator.getInstance();
         initializeMenuOptions();
     }
+    static List<String> fields = new ArrayList<>();
+    static boolean listIsSorted = false;
+    static String fieldFromSort;
+    @SuppressWarnings("rawtypes")
+    static Comparator cmpFromSort;
 
     private static void initializeMenuOptions(){
         menuOptions = new HashMap<>();
-        menuOptions.put("showFullStartupMenu", new MenuManager("showFullStartupMenu", 4));
+        menuOptions.put("showFullStartupMenu", new MenuManager("showFullStartupMenu", 5));
         menuOptions.put("showShortStartupMenu", new MenuManager("showShortStartupMenu", 2));
         menuOptions.put("showCreationMenu", new MenuManager("showCreationMenu", 4));
+        menuOptions.put("showSortMenu", new MenuManager("showSortMenu", 3));
+        menuOptions.put("showChooseFieldMenu", new MenuManager("showChooseFieldMenu", 3));
+        menuOptions.put("showChooseComparatorMenu", new MenuManager("showChooseComparatorMenu", 2));
     }
 
     public static void startMessage() throws IOException {
-        boolean tmp_validation = false;
-        if (!dataProvider.isEmpty()){
+        if (!dataProvider.isEmpty()) {
             Menu.showFullStartupMenu();
             currentMenu=menuOptions.get("showFullStartupMenu");
             processInput(getAnswer());
@@ -50,13 +59,13 @@ public class MessageHandler {
         }
 
     }
+
     private static void processInput(int choise) throws IOException {
 
         switch (currentMenu.getMenuName()){
             case "showShortStartupMenu":
                 processShortStartupMenu(choise);
                 break;
-
             case "showFullStartupMenu":
                 processFullStartupMenu(choise);
                 break;
@@ -132,7 +141,7 @@ public class MessageHandler {
     }
 
     private static void processFullStartupMenu(int choise) throws IOException {
-       //TODO поменять на ENUM
+        //TODO поменять на ENUM
         switch (choise){
             case 1:
                 processCreationMenu();
@@ -141,9 +150,12 @@ public class MessageHandler {
                 processUpdateMenu();
                 break;
             case 3:
-                processFindMenu();
+                showSortMenu();
                 break;
             case 4:
+                processFindMenu();
+                break;
+            case 5:
                 exit();
                 break;
         }
@@ -151,8 +163,96 @@ public class MessageHandler {
 
 
 
-    //TODO закончить метод
+    private static void showSortMenu() {
+        Menu.showSortMenu();
+        currentMenu=menuOptions.get("showSortMenu");
+        processSortMenu(getAnswer());
+    }
+
+    private static void processSortMenu(int choise) {
+
+        switch (choise) {
+            case 1:
+                fields = showChooseFieldMenu(dataProvider.getClazz());
+                currentMenu=menuOptions.get("showChooseFieldMenu");
+                int field = processChooseField(getAnswer());
+                fieldFromSort = fields.get(field);
+                showChooseComparatorMenu();
+                currentMenu=menuOptions.get("showChooseComparatorMenu");
+                boolean ascending = processChooseComparator(getAnswer());
+                cmpFromSort = useSortStrategy(dataProvider.getData(),
+                        dataProvider.getClazz(), fields.get(field), ascending);
+                listIsSorted = true;
+                showResultData();
+                restartMenu();
+                break;
+            case 2:
+                sortOnlyEvenValues(dataProvider.getData(), dataProvider.getClazz());
+                listIsSorted = false;
+                fieldFromSort = null;
+                cmpFromSort = null;
+
+                showResultData();
+                restartMenu();
+                break;
+            case 3:
+                exit();
+                break;
+        }
+    }
+
+    private static void showResultData() {
+        int counter = 1;
+        for(Object o : dataProvider.getData()){
+            System.out.println(counter++ + ". " + o);
+        }
+    }
+
+    private static void restartMenu(){
+        try {
+            startMessage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    private static int processChooseField(int choise) {
+        return switch (choise) {
+            case 1 -> 0;
+            case 2 -> 1;
+            case 3 -> 2;
+            default -> throw new IllegalStateException("Unexpected value: " + choise);
+        };
+    }
+
+    private static boolean processChooseComparator(int choise) {
+        currentMenu=menuOptions.get("showChooseComparatorMenu");
+        return switch (choise) {
+            case 1 -> true;
+            case 2 -> false;
+            default -> throw new IllegalStateException("Unexpected value: " + choise);
+        };
+
+    }
+
     private static void processFindMenu() {
+        if (listIsSorted && fieldFromSort != null && cmpFromSort != null) {
+            System.out.printf("Введите значение %s объекта, который хотите найти\n", fieldFromSort);
+            scanner.nextLine();
+            String value = scanner.nextLine();
+            int idx = BinarySearch.search(dataProvider.getData(),
+                    cmpFromSort, fieldFromSort, value);
+            System.out.println(idx + 1 + ". " + dataProvider.getData().get(idx));
+            try {
+                startMessage();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            System.out.println("Бинарный поиск возможен только для отсортированных данных!\n");
+            processSortMenu(1);
+        }
     }
     //TODO закончить метод
     private static void processUpdateMenu() {

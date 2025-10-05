@@ -34,7 +34,7 @@ public class DataProvider {
     /**
      * Метод для получения записанного массива.
      */
-    public List<CashedClass> getData() {
+    public List<? extends CashedClass> getData() {
         return data;
     }
 
