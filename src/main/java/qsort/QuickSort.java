@@ -2,7 +2,6 @@ package qsort;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,7 +17,8 @@ public final class QuickSort {
     }
 
     /// Конструктор который распараллеливает сортировку на два потока
-    private static <T> void quickSortTwoThreads(List<T> list, Comparator<? super T> cmp) {
+    private static <T> void quickSortTwoThreads(List<T> list,
+                                                Comparator<? super T> cmp) {
 
         int low = 0, high = list.size() - 1;
         int p = partition(list, low, high, cmp);
@@ -43,14 +43,16 @@ public final class QuickSort {
     }
 
     /// Конструктор для рекурсии
-    private static <T> void quickSort(List<T> a, int low, int high, Comparator<? super T> cmp) {
+    private static <T> void quickSort(List<T> a, int low, int high,
+                                      Comparator<? super T> cmp) {
         if (low >= high) return;
         int p = partition(a, low, high, cmp);
         quickSort(a, low, p - 1, cmp);        // левая часть
         quickSort(a, p + 1, high, cmp);        // правая часть
     }
 
-    private static <T> int partition(List<T> a, int low, int high, Comparator<? super T> cmp) {
+    private static <T> int partition(List<T> a, int low, int high,
+                                     Comparator<? super T> cmp) {
         moveMedianOfThreeToHigh(a, low, high, cmp);
         T pivot = a.get(high);
         int i = low - 1;
@@ -78,7 +80,8 @@ public final class QuickSort {
 
     /// Логика для избежания худшего случая O(n^2)
     /// Выбираем медианный элемент, и переносим его в high. Алгоритм Lomuto ожидает опорную точку(pivot) в переменной high
-    private static <T> void moveMedianOfThreeToHigh(List<T> a, int low, int high, Comparator<? super T> cmp) {
+    private static <T> void moveMedianOfThreeToHigh(List<T> a, int low,
+                                                    int high, Comparator<? super T> cmp) {
         int mid = low + (high - low) / 2;
 
         if (cmp.compare(a.get(low), a.get(mid)) > 0) swap(a, low, mid);
