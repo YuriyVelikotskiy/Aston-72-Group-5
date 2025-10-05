@@ -21,7 +21,7 @@ public class BinarySearchTest {
     }
     @Test
     @DisplayName("Return -1 when element not found")
-    void elementNotFound(){
+    void shouldNotFoundElement(){
         List<Integer> list = new ArrayList<>(List.of(1,2,3,4,5));
         int element = 6;
         int index = BinarySearch.search(list,element, Comparator.naturalOrder());
@@ -30,7 +30,7 @@ public class BinarySearchTest {
 
     @Test
     @DisplayName("Return -1 when element in empty list")
-    void elementNotFoundInEmptyList() {
+    void shouldNotFoundElementInEmptyList() {
         List<Integer> list = new ArrayList<>();
         int element = 1;
         int index = BinarySearch.search(list, element, Comparator.naturalOrder());
@@ -39,7 +39,7 @@ public class BinarySearchTest {
 
     @Test
     @DisplayName("Found element in large list")
-    void findElementInLargeList() {
+    void shouldFindElementInLargeList() {
         List<Integer> list = IntStream.range(0, 1000).boxed().collect(Collectors.toList());
         int element = 703;
         int index = BinarySearch.search(list, element, Comparator.naturalOrder());
