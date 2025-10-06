@@ -23,7 +23,7 @@ public class SortAndSearchTest {
 
     @Test
     void shouldSortAndSearchAuthors() {
-        cmp = new AuthorSortStrategy().sort(authors, "name");
+        cmp = new AuthorSortStrategy().sort(authors, "fullName");
         Author a = authors.get(BinarySearch.search(authors, a1, cmp));
         assertEquals(a1.getFullName(), a.getFullName());
     }
