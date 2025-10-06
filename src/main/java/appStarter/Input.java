@@ -1,6 +1,8 @@
 package appStarter;
 
 import classBuilder.*;
+import dataProvider.DataProvider;
+
 import fileReader.FileReader;
 
 import java.io.IOException;
@@ -17,18 +19,21 @@ public class Input {
     private static Path filepath;
     private static Scanner scanner=new Scanner(System.in);
 
-    private static void getListSizeAndClassFromUser(boolean listSizeFlag){
-        System.out.println("Укажите класс объекта");
-        className=scanner.nextLine();
-        if (listSizeFlag){
-            System.out.println("Укажите количество объектов, которые хотите создать");
-            listSize=scanner.nextInt();
-            scanner.nextLine();
+    //Берет тип класса из DataProvider, если не нашел, то просит пользователя вписать его в консоль
+    private static void getListSizeAndClassFromUser() {
+        if (DataProvider.getInstance().getClazz() != null) {
+            className = DataProvider.getInstance().getClazz().getSimpleName();
+        } else {
+            System.out.println("Укажите класс объекта");
+            className = scanner.nextLine();
         }
+        System.out.println("Укажите количество объектов, которые хотите создать");
+        listSize = scanner.nextInt();
+        scanner.nextLine();
     }
 
     public static List<? extends CashedClass> createRandomObjects() {
-        getListSizeAndClassFromUser(true);
+        getListSizeAndClassFromUser();
         return switch (className) {
             case "Author" -> Randomization.getRandomAuthors(listSize);
             case "Book" -> Randomization.getRandomBooks(listSize);
@@ -38,7 +43,7 @@ public class Input {
     }
 
     public static List<? extends CashedClass> createManualObjects() {
-        getListSizeAndClassFromUser(true);
+        getListSizeAndClassFromUser();
         return switch (className) {
             case "Author" -> ManualInput.processAuthorCreation(listSize);
             case "Book" -> ManualInput.processBookCreation(listSize);
@@ -53,7 +58,6 @@ public class Input {
         //TODO мейби путь в конфиг закинуть
         filepath = Paths.get(System.getProperty("user.dir") + "\\objectFiles" + "\\" + fileName);
 
-        getListSizeAndClassFromUser(false);
         return switch (className){
             case "Author" -> FileReader.readFile(filepath, Author.class);
             case "Book" -> FileReader.readFile(filepath, Book.class);

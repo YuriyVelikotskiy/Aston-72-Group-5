@@ -74,7 +74,13 @@ public class Menu {
     public static void showFindMenu() {System.out.println("Введите элемент который будем искать");}
 
     public static void showUpdateMenu() {
-        System.out.println("Введите данные на обновление");
+        System.out.println(
+                MessageConfigurator.CHOOSE_UPDATE_METHOD+"\n"+
+                        "1."+MessageConfigurator.FILE_UPDATE_METHOD+"\n" +
+                        "2."+MessageConfigurator.RANDOM_UPDATE_METHOD+"\n"+
+                        "3."+MessageConfigurator.MANUAL_UPDATE_METHOD+"\n"+
+                        "4."+MessageConfigurator.EXIT
+        );
     }
 }
 
