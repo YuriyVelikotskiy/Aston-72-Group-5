@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>{@link #getClazz() getClazz} </p>
  * <p>{@link #isEmpty() isEmpty}</p>
  * <p>{@link #add(CashedClass) add}</p>
- * <p>{@link #addAll(ArrayList) addAll}</p>
+ * <p>{@link #addAll(List) addAll}</p>
  */
 public class DataProvider {
     private static final DataProvider INSTANCE = new DataProvider();
@@ -49,7 +49,9 @@ public class DataProvider {
      * Метод возвращает тип объектов если в {@link DataProvider DataProvider} что-то записано и Null, если он пуст
      */
     public Class<? extends CashedClass> getClazz() {
+
         return clazz;
+
     }
 
     /**
@@ -98,7 +100,7 @@ public class DataProvider {
                 .filter(i -> !i.equals(inPutClass))
                 .findFirst();
         if (unValidClass.isPresent()) {
-            throw new IllegalArgumentException(String.format("File have mistake (expected %s, received %s, position - %d)", inPutClass, unValidClass.get(), atomicInteger.intValue()));
+            throw new IllegalArgumentException(String.format("В файле ошибка (ожидалось %s, получил %s, позиция - %d)", inPutClass, unValidClass.get(), atomicInteger.intValue()));
         }
     }
 
@@ -112,7 +114,7 @@ public class DataProvider {
         } else if (inPutClass.equals(clazz)) {
             runnable.run();
         } else {
-            throw new IllegalArgumentException(String.format("Input isn't valid (expected %s, received %s)", clazz, inPutClass));
+            throw new IllegalArgumentException(String.format("Ошибка ввода(ожидалось %s, получил %s)", clazz, inPutClass));
         }
     }
 }

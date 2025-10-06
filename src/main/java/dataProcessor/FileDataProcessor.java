@@ -1,10 +1,10 @@
 package dataProcessor;
 
-import classBuilder.Author;
-import classBuilder.CashedClass;
+import config.Config;
+import fileReader.FileReader;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+
 
 public class FileDataProcessor extends DataProcessor {
 
@@ -12,23 +12,24 @@ public class FileDataProcessor extends DataProcessor {
         super(next);
     }
 
+    //Метод пытается прочитать файл, в случае успеха возвращает true и пишет в консоль об успешном чтении
     @Override
     public boolean hasData() {
+        System.out.println("Попытка прочитать кэш-файл");
         try {
-            System.out.println("Try read cash");
-            var inPutArray = new ArrayList<CashedClass>(List.of(new Author.AuthorBuilder().build(), new Author.AuthorBuilder().build())); //TODO Заглушка - убрать
-            dataProvider.addAll(inPutArray);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e + "\nCash-file is not valid");
+           dataProvider.addAll(FileReader.readCash(Config.getCASHPATH()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         if (!dataProvider.isEmpty()) {
-            System.out.println("Cash-file is readied");
+            System.out.println("Кэш-файл прочитан");
+            System.out.printf("Тип записанных данных %s%n", dataProvider.getClazz().getSimpleName());
             return true;
         } else if (nextProcessor != null) {
             return nextProcessor.hasData();
         }
-        System.out.println("Memory is Empty");
+        System.out.println("Память пуста");
         return false;
     }
 }
