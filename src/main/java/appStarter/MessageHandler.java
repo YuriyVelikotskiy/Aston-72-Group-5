@@ -241,9 +241,14 @@ public class MessageHandler {
             System.out.printf("Введите значение %s объекта, который хотите найти\n", fieldFromSort);
             scanner.nextLine();
             String value = scanner.nextLine();
+            if (value.isEmpty()) System.out.println("Введите еще раз");
             int idx = BinarySearch.search(dataProvider.getData(),
                     cmpFromSort, fieldFromSort, value);
-            System.out.println(idx + 1 + ". " + dataProvider.getData().get(idx));
+            if (idx >= 0) {
+                System.out.println(idx + 1 + ". " + dataProvider.getData().get(idx));
+            } else {
+                System.out.println("Нет такого элемента");
+            }
             try {
                 startMessage();
             } catch (IOException e) {
