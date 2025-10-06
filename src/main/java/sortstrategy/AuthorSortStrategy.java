@@ -4,9 +4,11 @@ import classBuilder.Author;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.ToIntFunction;
 
-    /// Реализация абстрактного базового класса для объекта Author
-    /// Переопределяем только Map с компараторами
+/// Реализация абстрактного базового класса для объекта Author
+/// Переопределяем только Map с компараторами
+
 public final class AuthorSortStrategy extends BaseSortStrategy<Author> {
 
     private static final Comparator<Author> BY_COUNTRY =
@@ -20,8 +22,13 @@ public final class AuthorSortStrategy extends BaseSortStrategy<Author> {
     protected Map<String, Comparator<Author>> comparators() {
         return Map.of(
                 "country", BY_COUNTRY,
-                "name", BY_NAME,
+                "fullname", BY_NAME,
                 "birthayear", BY_BIRTH_YEAR
         );
+    }
+
+    @Override
+    protected Map<String, ToIntFunction<Author>> intExtractors() {
+        return Map.of("birthayear", Author::getBirthAYear);
     }
 }

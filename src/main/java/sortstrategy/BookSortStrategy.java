@@ -4,9 +4,10 @@ import classBuilder.Book;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.ToIntFunction;
 
-    /// Реализация абстрактного базового класса для объекта Book
-    /// Переопределяем только Map с компараторами
+/// Реализация абстрактного базового класса для объекта Book
+/// Переопределяем только Map с компараторами
 
 public final class BookSortStrategy extends BaseSortStrategy<Book> {
 
@@ -24,5 +25,10 @@ public final class BookSortStrategy extends BaseSortStrategy<Book> {
                 "tile", BY_TILE,
                 "yearpublished", BY_YEAR
         );
+    }
+
+    @Override
+    protected Map<String, ToIntFunction<Book>> intExtractors() {
+        return Map.of("yearpublished", Book::getYearPublished);
     }
 }

@@ -3,6 +3,11 @@ package appStarter;
 import classBuilder.*;
 import dataProvider.DataProvider;
 
+import fileReader.FileReader;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,7 +15,9 @@ public class Input {
 
     private static String className;
     private static int listSize;
-    private static Scanner scanner = new Scanner(System.in);
+    private static String fileName;
+    private static Path filepath;
+    private static Scanner scanner=new Scanner(System.in);
 
     //Берет тип класса из DataProvider, если не нашел, то просит пользователя вписать его в консоль
     private static void getListSizeAndClassFromUser() {
@@ -45,8 +52,17 @@ public class Input {
         };
     }
 
-//    public static List<? extends CashedClass> readFromFile(){
-//
-//    }
+    public static List<? extends CashedClass> readFromFile() throws IOException {
+        System.out.println("Введите название файла:");
+        fileName=scanner.nextLine();
+        //TODO мейби путь в конфиг закинуть
+        filepath = Paths.get(System.getProperty("user.dir") + "\\objectFiles" + "\\" + fileName);
 
+        return switch (className){
+            case "Author" -> FileReader.readFile(filepath, Author.class);
+            case "Book" -> FileReader.readFile(filepath, Book.class);
+            case "Publisher" -> FileReader.readFile(filepath, Publisher.class);
+            default -> throw new IllegalArgumentException("Неизвестный класс: " + className);
+        };
+    }
 }
