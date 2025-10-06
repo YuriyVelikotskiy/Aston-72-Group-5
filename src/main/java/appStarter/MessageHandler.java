@@ -37,13 +37,14 @@ public class MessageHandler {
         cashCreator = CashCreator.getInstance();
         initializeMenuOptions();
     }
+
     static List<String> fields = new ArrayList<>();
     static boolean listIsSorted = false;
     static String fieldFromSort;
     @SuppressWarnings("rawtypes")
     static Comparator cmpFromSort;
 
-    private static void initializeMenuOptions(){
+    private static void initializeMenuOptions() {
         menuOptions = new HashMap<>();
         menuOptions.put("showFullStartupMenu", new MenuManager("showFullStartupMenu", 5));
         menuOptions.put("showShortStartupMenu", new MenuManager("showShortStartupMenu", 2));
@@ -56,15 +57,15 @@ public class MessageHandler {
 
 
     public static void startMessage() throws IOException {
-        boolean tmp_validation = false;
         dataProcessor.hasData();
+
         if (!dataProvider.isEmpty()) {
             Menu.showFullStartupMenu();
-            currentMenu=menuOptions.get("showFullStartupMenu");
+            currentMenu = menuOptions.get("showFullStartupMenu");
             processInput(getAnswer());
-        }else {
+        } else {
             Menu.showShortStartupMenu();
-            currentMenu=menuOptions.get("showShortStartupMenu");
+            currentMenu = menuOptions.get("showShortStartupMenu");
             processInput(getAnswer());
         }
 
@@ -72,7 +73,7 @@ public class MessageHandler {
 
     private static void processInput(int choise) throws IOException {
 
-        switch (currentMenu.getMenuName()){
+        switch (currentMenu.getMenuName()) {
             case "showShortStartupMenu":
                 processShortStartupMenu(choise);
                 break;
@@ -103,7 +104,8 @@ public class MessageHandler {
     }
 
     private static void processCreationMethod(int choice) {
-        switch (choice){
+        dataProvider.clear();
+        switch (choice) {
             case 1:
                 readFromFile();
                 break;
@@ -118,54 +120,60 @@ public class MessageHandler {
     //TODO закончить метод
     private static void manualInput() {
         try {
-        if(currentMenu.getMenuName().equals("showUpdateMenu")){
-            list = Input.createManualObjects();
-            cache(()->CashCreator.getInstance().start(list,Config.getCASHPATH()),list);
-            startMessage();
-        }else {
-            list = Input.createManualObjects();
-            cache(()->CashCreator.getInstance().start(list),list);
-            startMessage();
-        }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+            if (currentMenu.getMenuName().equals("showUpdateMenu")) {
+                list = Input.createManualObjects();
+                cache(() -> CashCreator.getInstance().start(list, Config.getCASHPATH()), list);
+                startMessage();
+            } else {
+                list = Input.createManualObjects();
+                cache(() -> CashCreator.getInstance().start(list), list);
+                startMessage();
+            }
+        } catch (Exception e) {
+            System.out.println("Некорректный ввод!!!");
             manualInput();
         }
     }
 
-    }
+
     //TODO закончить метод
     private static void createRandomData() {
         try {
-        if(currentMenu.getMenuName().equals("showUpdateMenu")){
-            list = Input.createRandomObjects();
-            cache(()->CashCreator.getInstance().start(list,Config.getCASHPATH(), true),list);
-            startMessage();
-        }else {
-            list = Input.createRandomObjects();
-            cache(()->CashCreator.getInstance().start(list),list);
-            startMessage();
+            if (currentMenu.getMenuName().equals("showUpdateMenu")) {
+                list = Input.createRandomObjects();
+                cache(() -> CashCreator.getInstance().start(list, Config.getCASHPATH(), true), list);
+                startMessage();
+            } else {
+                list = Input.createRandomObjects();
+                cache(() -> CashCreator.getInstance().start(list), list);
+                startMessage();
+            }
+        } catch (Exception e) {
+            System.out.println("Некорректный ввод!!!");
+            createRandomData();
         }
-    } catch (Exception e){
-        System.out.println(e.getMessage());
-        createRandomData();
-        }}
+    }
 
-    private static void readFromFile(){
+    private static void readFromFile() {
         try {
-            list = Input.readFromFile();
-            cache(list);
-            showInputData();
-            startMessage();
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+            if (currentMenu.getMenuName().equals("showUpdateMenu")) {
+                list = Input.createRandomObjects();
+                cache(() -> CashCreator.getInstance().start(list, Config.getCASHPATH(), true), list);
+                startMessage();
+            } else {
+                list = Input.createRandomObjects();
+                cache(() -> CashCreator.getInstance().start(list), list);
+                startMessage();
+            }
+        } catch (Exception e) {
+            System.out.println("Некорректный ввод!!!");
             readFromFile();
         }
     }
 
-    private static void processShortStartupMenu(int choise) {
+    private static void processShortStartupMenu(int choise) throws IOException {
         //TODO посмотреть можно ли сделать цепочку обязанностей
-        switch (choise){
+        switch (choise) {
             case 1:
                 processCreationMenu();
             case 2:
@@ -173,15 +181,15 @@ public class MessageHandler {
         }
     }
 
-    private static void processCreationMenu() {
+    private static void processCreationMenu() throws IOException {
         Menu.showCreationMenu();
-        currentMenu=menuOptions.get("showCreationMenu");
+        currentMenu = menuOptions.get("showCreationMenu");
         processInput(getAnswer());
     }
 
     private static void processFullStartupMenu(int choise) throws IOException {
         //TODO поменять на ENUM
-        switch (choise){
+        switch (choise) {
             case 1:
                 processCreationMenu();
                 break;
@@ -201,10 +209,9 @@ public class MessageHandler {
     }
 
 
-
     private static void showSortMenu() {
         Menu.showSortMenu();
-        currentMenu=menuOptions.get("showSortMenu");
+        currentMenu = menuOptions.get("showSortMenu");
         processSortMenu(getAnswer());
     }
 
@@ -213,11 +220,11 @@ public class MessageHandler {
         switch (choise) {
             case 1:
                 fields = showChooseFieldMenu(dataProvider.getClazz());
-                currentMenu=menuOptions.get("showChooseFieldMenu");
+                currentMenu = menuOptions.get("showChooseFieldMenu");
                 int field = processChooseField(getAnswer());
                 fieldFromSort = fields.get(field);
                 showChooseComparatorMenu();
-                currentMenu=menuOptions.get("showChooseComparatorMenu");
+                currentMenu = menuOptions.get("showChooseComparatorMenu");
                 boolean ascending = processChooseComparator(getAnswer());
                 cmpFromSort = useSortStrategy(dataProvider.getData(),
                         dataProvider.getClazz(), fields.get(field), ascending);
@@ -242,12 +249,12 @@ public class MessageHandler {
 
     private static void showResultData() {
         int counter = 1;
-        for(Object o : dataProvider.getData()){
+        for (Object o : dataProvider.getData()) {
             System.out.println(counter++ + ". " + o);
         }
     }
 
-    private static void restartMenu(){
+    private static void restartMenu() {
         try {
             startMessage();
         } catch (IOException e) {
@@ -266,7 +273,7 @@ public class MessageHandler {
     }
 
     private static boolean processChooseComparator(int choise) {
-        currentMenu=menuOptions.get("showChooseComparatorMenu");
+        currentMenu = menuOptions.get("showChooseComparatorMenu");
         return switch (choise) {
             case 1 -> true;
             case 2 -> false;
@@ -303,8 +310,9 @@ public class MessageHandler {
             processFindMenu();
         }
     }
+
     //TODO закончить метод
-    private static void processUpdateMenu() {
+    private static void processUpdateMenu() throws IOException {
         Menu.showUpdateMenu();
         currentMenu = menuOptions.get("showUpdateMenu");
         processInput(getAnswer());
@@ -342,16 +350,15 @@ public class MessageHandler {
         }
     }
 
-    private static boolean isInputValid(int n){
-
     private static boolean isInputValid(int n) {
         return currentMenu.isValidInput(n);
     }
 
     //вспомогательный метод отображения, создания кэша и добавления данных в DataProvider
     private static void cache(Runnable runnable, List<? extends CashedClass> list) {
-        System.out.println(list);
         dataProvider.addAll(list);
+        showResultData();
         runnable.run();
+
     }
 }

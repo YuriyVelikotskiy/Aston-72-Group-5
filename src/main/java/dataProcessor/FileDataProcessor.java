@@ -16,10 +16,11 @@ public class FileDataProcessor extends DataProcessor {
     @Override
     public boolean hasData() {
         System.out.println("Попытка прочитать кэш-файл");
+
         try {
            dataProvider.addAll(FileReader.readCash(Config.getCASHPATH()));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Нет кэш-файла");
         }
 
         if (!dataProvider.isEmpty()) {
