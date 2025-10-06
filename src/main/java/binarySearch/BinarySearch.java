@@ -8,6 +8,8 @@ import classBuilder.Publisher;
 import java.util.Comparator;
 import java.util.List;
 
+import static appStarter.ReflectionGetObject.reflectionGetObject;
+
 public class BinarySearch {
     public static <T extends Comparable<? super T>> int search(List<T> list, T x) {
         return search(list, x, T::compareTo);
@@ -39,38 +41,29 @@ public class BinarySearch {
                                                     Comparator comparator,
                                                     String fieldName,
                                                     String value) {
-        fieldName = fieldName.toLowerCase();
-        CashedClass copy = list.get(0);
-//        Field f = fin
-//        Field[] fields = list.get(0).getClass().getDeclaredFields();
-//        for (Field field : fields) {
-//            if field.getName().equals(fieldName) {
-//
-//            }
-//        }
-        if (copy.getClass() == Author.class) {
-            copy = switch (fieldName) {
-                case "fullname" -> new Author.AuthorBuilder().name(value).build();
-                case "country" -> new Author.AuthorBuilder().country(value).build();
-                case "birthayear" -> new Author.AuthorBuilder().birthAYear(Integer.parseInt(value)).build();
-                default -> null;
-            };
-        } else if (copy.getClass() == Book.class) {
-            copy = switch (fieldName) {
-                case "tile" -> new Book.BookBuilder().tile(value).build();
-                case "genre" -> new Book.BookBuilder().genre(value).build();
-                case "yearpublished" -> new Book.BookBuilder().yearPublished(Integer.parseInt(value)).build();
-                default -> null;
-            };
-        } else if (copy.getClass() == Publisher.class) {
-            copy = switch (fieldName) {
-                case "city" -> new Publisher.PublisherBuilder().city(value).build();
-                case "name" -> new Publisher.PublisherBuilder().name(value).build();
-                case "foundingyear" -> new Publisher.PublisherBuilder().foundingYear(Integer.parseInt(value)).build();
-                default -> null;
-            };
+        CashedClass copy;
+        if (list.get(0).getClass() == Author.class) {
+            try {
+                copy = new Author.AuthorBuilder().build();
+                copy = reflectionGetObject(copy, fieldName, value);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (list.get(0).getClass() == Book.class) {
+            try {
+                copy = new Book.BookBuilder().build();
+                copy = reflectionGetObject(copy, fieldName, value);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (list.get(0).getClass() == Publisher.class) {
+            try {
+                copy = new Publisher.PublisherBuilder().build();
+                copy = reflectionGetObject(copy, fieldName, value);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
         } else return -1;
-        if (copy == null) return -1;
         if (comparator.compare(list.get(0), list.get(list.size() - 1)) > 0) {
             comparator = comparator.reversed();
         }

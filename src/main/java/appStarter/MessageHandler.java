@@ -237,26 +237,31 @@ public class MessageHandler {
     }
 
     private static void processFindMenu() {
-        if (listIsSorted && fieldFromSort != null && cmpFromSort != null) {
-            System.out.printf("Введите значение %s объекта, который хотите найти\n", fieldFromSort);
-            scanner.nextLine();
-            String value = scanner.nextLine();
-            if (value.isEmpty()) System.out.println("Введите еще раз");
-            int idx = BinarySearch.search(dataProvider.getData(),
-                    cmpFromSort, fieldFromSort, value);
-            if (idx >= 0) {
-                System.out.println(idx + 1 + ". " + dataProvider.getData().get(idx));
+        try {
+            if (listIsSorted && fieldFromSort != null && cmpFromSort != null) {
+                System.out.printf("Введите значение %s объекта, который хотите найти\n", fieldFromSort); //TODO вынести отсюда
+                scanner.nextLine();
+                String value = scanner.nextLine();
+                if (value.isEmpty()) System.out.println("Введите еще раз");
+                int idx = BinarySearch.search(dataProvider.getData(),
+                        cmpFromSort, fieldFromSort, value);
+                if (idx >= 0) {
+                    System.out.println(idx + 1 + ". " + dataProvider.getData().get(idx));
+                } else {
+                    System.out.println("Нет такого элемента");
+                }
+                try {
+                    startMessage();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             } else {
-                System.out.println("Нет такого элемента");
+                System.out.println("Бинарный поиск возможен только для отсортированных данных!\n");
+                processSortMenu(1);
             }
-            try {
-                startMessage();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            System.out.println("Бинарный поиск возможен только для отсортированных данных!\n");
-            processSortMenu(1);
+        } catch (Exception e) {
+            System.out.println("Некорректный ввод!");
+            processFindMenu();
         }
     }
     //TODO закончить метод

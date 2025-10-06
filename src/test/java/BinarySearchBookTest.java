@@ -21,14 +21,14 @@ public class BinarySearchBookTest {
     void book_searchByYearPublished_ASC_found() {
         List<Book> books = Randomization.getRandomBooks(20);
 
-        // сортируем по yearpublished по возрастанию
+        // сортируем по yearPublished по возрастанию
         var strategy = new BookSortStrategy();
-        Comparator<Book> cmpAsc = strategy.sort(books, "yearpublished");
+        Comparator<Book> cmpAsc = strategy.sort(books, "yearPublished");
 
         // берём существующее значение из середины
         int probe = books.get(books.size() / 2).getYearPublished();
 
-        int idx = BinarySearch.search(books, cmpAsc, "yearpublished", String.valueOf(probe));
+        int idx = BinarySearch.search(books, cmpAsc, "yearPublished", String.valueOf(probe));
 
         assertNotEquals(-1, idx);
         assertEquals(probe, books.get(idx).getYearPublished());
@@ -39,14 +39,14 @@ public class BinarySearchBookTest {
     void book_searchByYearPublished_DESC_found() {
         List<Book> books = Randomization.getRandomBooks(20);
 
-        // сортируем по yearpublished по убыванию
+        // сортируем по yearPublished по убыванию
         var strategy = new BookSortStrategy();
-        Comparator<Book> cmpDesc = strategy.sort(books, "yearpublished", false);
+        Comparator<Book> cmpDesc = strategy.sort(books, "yearPublished", false);
 
         // берём существующее значение из середины
         int probe = books.get(books.size() / 2).getYearPublished();
 
-        int idx = BinarySearch.search(books, cmpDesc, "yearpublished", String.valueOf(probe));
+        int idx = BinarySearch.search(books, cmpDesc, "yearPublished", String.valueOf(probe));
 
         assertNotEquals(-1, idx);
         assertEquals(probe, books.get(idx).getYearPublished());
@@ -58,7 +58,7 @@ public class BinarySearchBookTest {
         List<Book> books = Randomization.getRandomBooks(30);
 
         var strategy = new BookSortStrategy();
-        Comparator<Book> cmpAsc = strategy.sort(books, "yearpublished");
+        Comparator<Book> cmpAsc = strategy.sort(books, "yearPublished");
 
         // подбираем год, которого точно нет в списке (в пределах валидного диапазона билдера)
         Set<Integer> years = books.stream().map(Book::getYearPublished).collect(Collectors.toSet());
@@ -69,7 +69,7 @@ public class BinarySearchBookTest {
         }
         assertTrue(missing >= 0, "Не удалось подобрать отсутствующий год для теста");
 
-        int idx = BinarySearch.search(books, cmpAsc, "yearpublished", String.valueOf(missing));
+        int idx = BinarySearch.search(books, cmpAsc, "yearPublished", String.valueOf(missing));
         assertEquals(-1, idx);
     }
 
@@ -79,7 +79,7 @@ public class BinarySearchBookTest {
         List<Book> books = Randomization.getRandomBooks(30);
 
         var strategy = new BookSortStrategy();
-        Comparator<Book> cmpDesc = strategy.sort(books, "yearpublished", false);
+        Comparator<Book> cmpDesc = strategy.sort(books, "yearPublished", false);
 
         // подбираем год, которого нет
         Set<Integer> years = books.stream().map(Book::getYearPublished).collect(Collectors.toSet());
@@ -90,7 +90,7 @@ public class BinarySearchBookTest {
         }
         assertTrue(missing >= 0, "Не удалось подобрать отсутствующий год для теста");
 
-        int idx = BinarySearch.search(books, cmpDesc, "yearpublished", String.valueOf(missing));
+        int idx = BinarySearch.search(books, cmpDesc, "yearPublished", String.valueOf(missing));
         assertEquals(-1, idx);
     }
 
@@ -125,14 +125,14 @@ public class BinarySearchBookTest {
     }
 
     @Test
-    @DisplayName("Книга: поиск по yearpublished — найдено")
+    @DisplayName("Книга: поиск по yearPublished — найдено")
     void book_searchByYear_found() {
         List<Book> list = Randomization.getRandomBooks(30);
         var strategy = new BookSortStrategy();
-        Comparator<Book> cmp = strategy.sort(list, "yearpublished");
+        Comparator<Book> cmp = strategy.sort(list, "yearPublished");
 
         int year = list.get((list.size() * 2) / 3).getYearPublished();
-        int idx = BinarySearch.search(list, cmp, "yearpublished", String.valueOf(year));
+        int idx = BinarySearch.search(list, cmp, "yearPublished", String.valueOf(year));
 
         assertNotEquals(-1, idx);
         assertEquals(0, cmp.compare(list.get(idx),
@@ -149,7 +149,7 @@ public class BinarySearchBookTest {
     }
 
     @Test
-    @DisplayName("Книга: дубликаты по yearpublished — любой индекс равного")
+    @DisplayName("Книга: дубликаты по yearPublished — любой индекс равного")
     void book_duplicatesByYear_anyMatchIndex() {
         Book b1 = new Book.BookBuilder().tile("A").genre("G").yearPublished(2000).build();
         Book b2 = new Book.BookBuilder().tile("B").genre("G").yearPublished(2000).build();
@@ -157,9 +157,9 @@ public class BinarySearchBookTest {
         List<Book> list = new ArrayList<>(List.of(b1, b2, b3));
 
         var strategy = new BookSortStrategy();
-        Comparator<Book> cmp = strategy.sort(list, "yearpublished");
+        Comparator<Book> cmp = strategy.sort(list, "yearPublished");
 
-        int idx = BinarySearch.search(list, cmp, "yearpublished", "2000");
+        int idx = BinarySearch.search(list, cmp, "yearPublished", "2000");
         assertNotEquals(-1, idx);
         assertEquals(0, cmp.compare(list.get(idx),
                 new Book.BookBuilder().yearPublished(2000).build()));

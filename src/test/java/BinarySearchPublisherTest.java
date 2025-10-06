@@ -48,10 +48,10 @@ public class BinarySearchPublisherTest {
     void publisher_searchByYear_found() {
         List<Publisher> list = Randomization.getRandomPublishers(20);
         var strategy = new PublisherSortStrategy();
-        Comparator<Publisher> cmp = strategy.sort(list, "foundingyear");
+        Comparator<Publisher> cmp = strategy.sort(list, "foundingYear");
 
         int y = list.get((list.size() * 2) / 3).getFoundingYear();
-        int idx = BinarySearch.search(list, cmp, "foundingyear", String.valueOf(y));
+        int idx = BinarySearch.search(list, cmp, "foundingYear", String.valueOf(y));
 
         assertNotEquals(-1, idx);
         assertEquals(0, cmp.compare(list.get(idx),
