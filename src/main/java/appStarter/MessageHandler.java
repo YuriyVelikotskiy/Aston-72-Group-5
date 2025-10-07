@@ -157,16 +157,16 @@ public class MessageHandler {
     private static void readFromFile() {
         try {
             if (currentMenu.getMenuName().equals("showUpdateMenu")) {
-                list = Input.createRandomObjects();
+                list = Input.readFromFile();
                 cache(() -> CashCreator.getInstance().start(list, Config.getCASHPATH(), true), list);
                 startMessage();
             } else {
-                list = Input.createRandomObjects();
+                list = Input.readFromFile();
                 cache(() -> CashCreator.getInstance().start(list), list);
                 startMessage();
             }
         } catch (Exception e) {
-            System.out.println("Некорректный ввод!!!");
+            System.out.println(e.getMessage());
             readFromFile();
         }
     }
