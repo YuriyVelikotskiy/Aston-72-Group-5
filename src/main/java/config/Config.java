@@ -9,7 +9,7 @@ public class Config {
     private static final String CASHDIR = System.getProperty("user.dir") + "\\src\\cash\\";
     private static final String CASHPATH = CASHDIR+"cash";
     private static final String DATAHOLDER = System.getProperty("user.dir") + "\\src\\randomDataHolder\\";
-    private static final String TILES = "bookTiles.txt";
+    private static final String TITLES = "bookTitles.txt";
     private static final String GENERS = "geners";
     private static final String NAMES = "names";
     private static final String COUNTRY = "country";
@@ -38,7 +38,7 @@ public class Config {
     }
 
     public static Path getPathTitle() {
-        return Paths.get(DATAHOLDER + TILES);
+        return Paths.get(DATAHOLDER + TITLES);
     }
 
     public static Path getPathPublisher() {

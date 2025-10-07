@@ -29,7 +29,7 @@ public class ManualInput {
         List<Book> bookList = new ArrayList<>();
         for (int i = 0; i < listSize; i++) {
             System.out.println("Введите название книги:");
-            String tile = scanner.nextLine();
+            String title = scanner.nextLine();
 
             System.out.println("Введите год публикации:");
             int yearPublished = scanner.nextInt();
@@ -37,7 +37,7 @@ public class ManualInput {
 
             System.out.println("Введите жанр книги:");
             String genre = scanner.nextLine();
-            bookList.add(createBook(tile, yearPublished, genre));
+            bookList.add(createBook(title, yearPublished, genre));
         }
         return bookList;
     }
@@ -64,8 +64,8 @@ public class ManualInput {
         return new Author.AuthorBuilder().name(fullName).country(country).birthAYear(birthAYear).build();
     }
 
-    private static Book createBook(String tile, int yearPublished, String genre) {
-        return new Book.BookBuilder().tile(tile).yearPublished(yearPublished).genre(genre).build();
+    private static Book createBook(String title, int yearPublished, String genre) {
+        return new Book.BookBuilder().title(title).yearPublished(yearPublished).genre(genre).build();
     }
 
     private static Publisher createPublisher(String name, String city, int foundingYear) {

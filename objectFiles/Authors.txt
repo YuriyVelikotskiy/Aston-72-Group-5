@@ -1,0 +1,6 @@
+{"fullName":"Зайцева Аделя Платоновна","country":"England","birthAYear":1210}
+{"fullName":"Степанова Ангелина Семёновна","country":"Federated States of Micronesia","birthAYear":1883}
+{"fullName":"Борисов Валерий Ильич","country":"Kuwait","birthAYear":1566}
+{"fullName":"Усова Полина Алексеевна","country":"New Caledonia","birthAYear":358}
+{"fullName":"Михайлов Давид Макарович","country":"Sao Tome and Principe","birthAYear":1800}
+{"fullName":"Ермилов Григорий Филиппович","country":"El Salvador","birthAYear":251}

@@ -48,7 +48,7 @@ public class RandomizationTest {
 
         listBooks.forEach(book -> {
             assertNotNull(book.getGenre());
-            assertNotNull(book.getTile());
+            assertNotNull(book.getTitle());
         });
     }
 
