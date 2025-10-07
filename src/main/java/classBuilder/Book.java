@@ -12,19 +12,19 @@ import java.util.Objects;
 /// Валидация на длину жанра и на проверку года.
 /// По умолчанию поле жанра null, год ставится текущий
 public class Book extends CashedClass{
-    private final String tile;
+    private final String title;
     private final int yearPublished;
     private final String genre;
 
     private Book(BookBuilder builder) {
-        this.tile = builder.tile;
+        this.title = builder.title;
         this.yearPublished = builder.yearPublished;
         this.genre = builder.genre;
     }
 
     //гетеры
-    public String getTile() {
-        return tile;
+    public String getTitle() {
+        return title;
     }
 
     public int getYearPublished() {
@@ -38,7 +38,7 @@ public class Book extends CashedClass{
     @Override
     public String toString() {
         return "Book{" +
-                "tile='" + tile + '\'' +
+                "title='" + title + '\'' +
                 ", yearPublished=" + yearPublished +
                 ", genre='" + genre + '\'' +
                 '}';
@@ -57,7 +57,7 @@ public class Book extends CashedClass{
 
     //билдер
     public static class BookBuilder {
-        private String tile;
+        private String title;
         private int yearPublished;
         private String genre;
 
@@ -84,9 +84,9 @@ public class Book extends CashedClass{
                 return this;
             }
         }
-        @JsonProperty("tile")
-        public BookBuilder tile(String tile){
-            this.tile = tile;
+        @JsonProperty("title")
+        public BookBuilder title(String title){
+            this.title = title;
             return this;
         }
 
@@ -98,7 +98,7 @@ public class Book extends CashedClass{
 
     @Override
     public int hashCode() {
-        return Objects.hash(tile, yearPublished, genre);
+        return Objects.hash(title, yearPublished, genre);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class Book extends CashedClass{
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
         return Objects.equals(
-                tile, book.getTile()) &&
+                title, book.getTitle()) &&
                 Objects.equals(yearPublished, book.getYearPublished()) &&
                 Objects.equals(genre, book.getGenre());
     }

@@ -18,9 +18,6 @@ import static appStarter.UseSortStrategy.sortOnlyEvenValues;
 import static appStarter.UseSortStrategy.useSortStrategy;
 
 
-//TODO поиск
-//TODO обновление/перезапись
-
 public class MessageHandler {
     private static final Scanner scanner;
     private static List<? extends CashedClass> list;
@@ -126,7 +123,6 @@ public class MessageHandler {
         }
     }
 
-    //TODO закончить метод
     private static void manualInput() {
         try {
             if (currentMenu.getMenuName().equals("showUpdateMenu")) {
@@ -144,8 +140,6 @@ public class MessageHandler {
         }
     }
 
-
-    //TODO закончить метод
     private static void createRandomData() {
         try {
             if (currentMenu.getMenuName().equals("showUpdateMenu")) {
@@ -181,7 +175,6 @@ public class MessageHandler {
     }
 
     private static void processShortStartupMenu(int choice) throws IOException {
-        //TODO посмотреть можно ли сделать цепочку обязанностей
         switch (choice) {
             case 1:
                 processCreationMenu();
@@ -197,7 +190,6 @@ public class MessageHandler {
     }
 
     private static void processFullStartupMenu(int choice) throws IOException {
-        //TODO поменять на ENUM
         switch (choice) {
             case 1:
                 processCreationMenu();
@@ -247,6 +239,7 @@ public class MessageHandler {
                 listIsSorted = false;
                 fieldFromSort = null;
                 cmpFromSort = null;
+
                 showResultData();
                 processSaveSortMenu();
                 restartMenu();
@@ -295,7 +288,7 @@ public class MessageHandler {
     private static void processFindMenu() {
         try {
             if (listIsSorted && fieldFromSort != null && cmpFromSort != null) {
-                System.out.printf("Введите значение %s объекта, который хотите найти\n", fieldFromSort); //TODO вынести отсюда
+                System.out.printf("Введите значение %s объекта, который хотите найти\n", fieldFromSort);
                 scanner.nextLine();
                 String value = scanner.nextLine();
                 if (value.isEmpty()) System.out.println("Введите еще раз");
@@ -308,7 +301,6 @@ public class MessageHandler {
                 } else {
                     System.out.println("Нет такого элемента");
                 }
-
                 try {
                     startMessage();
                 } catch (IOException e) {
@@ -324,7 +316,6 @@ public class MessageHandler {
         }
     }
 
-    //TODO закончить метод
     private static void processUpdateMenu() throws IOException {
         Menu.showUpdateMenu();
         currentMenu = menuOptions.get("showUpdateMenu");
@@ -355,13 +346,6 @@ public class MessageHandler {
         return choice;
     }
 
-    private static void showInputData() {
-        System.out.println("Ваши введенные данные:");
-        int counter = 1;
-        for (Object item : list) {
-            System.out.println(counter++ + ". " + item);
-        }
-    }
 
     private static boolean isInputValid(int n) {
         return currentMenu.isValidInput(n);
@@ -382,8 +366,7 @@ public class MessageHandler {
     }
     private static void processSaveSortMethod(int choice){
         if (choice == 1) {
-            CashCreator instance = CashCreator.getInstance();
-            instance.start(dataProvider.getData(),Config.getRESULT(),true);
+            cashCreator.start(dataProvider.getData(),Config.getRESULT(),true);
             System.out.println("Файлы будет сохранены в " + Config.getRESULT());
         }
     }
@@ -396,8 +379,8 @@ public class MessageHandler {
 
     private static void processSaveFindMethod(int choice){
         if (choice == 1) {
-            CashCreator instance = CashCreator.getInstance();
-            instance.start(Collections.singletonList(dataProvider.getData().get(lastFindElement)),Config.getRESULTFIND(),true);
+
+            cashCreator.start(Collections.singletonList(dataProvider.getData().get(lastFindElement)),Config.getRESULTFIND(),true);
             System.out.println("Файлы будет сохранены в " + Config.getRESULTFIND());
         }
     }
