@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -61,6 +63,9 @@ public class CashCreator {
     public void start(List<? extends CashedClass> list, Path path, boolean addMode) {
         start(new CashTask(list,path).setAddMode(addMode));
     }
+    public void start(List<? extends CashedClass> list, Path path, boolean addMode,boolean addData) {
+        start(new CashTask(list,path).setAddMode(addMode).setAddData(addData));
+    }
 
     private void start(CashTask task){
         //поток создается только по необходимости
@@ -96,8 +101,10 @@ public class CashCreator {
     /// Непосредственная запись в файл
     private void addCash(CashTask task) {
         StringBuffer cash = new StringBuffer();
+        if (task.getAddData()){cash.append("Запись от: ").append(LocalDate.now()).append(" ").append(LocalTime.now()).append("\n");}
         task.getToCash().forEach(item ->
                 cash.append(item.toJSON()).append("\n"));
+        if (task.getAddMode()){cash.append("\n");}
         try {
             if (task.getAddMode()) {
                 Files.writeString(task.getPath(), cash.toString(), StandardOpenOption.APPEND, StandardOpenOption.CREATE);
@@ -114,6 +121,7 @@ public class CashCreator {
         private final List<? extends CashedClass> toCash;
         private boolean addMode = false;
         private final Path path;
+        private boolean addData = false;
 
         public CashTask(List<? extends CashedClass> toCash,Path path){
             this.toCash = toCash;
@@ -125,6 +133,14 @@ public class CashCreator {
         public CashTask setAddMode(boolean addMode) {
             this.addMode = addMode;
             return this;
+        }
+
+        public CashTask setAddData(boolean addData) {
+            this.addData = addData;
+            return this;
+        }
+        public boolean getAddData(){
+            return addData;
         }
 
         public Path getPath() {

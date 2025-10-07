@@ -366,7 +366,7 @@ public class MessageHandler {
     }
     private static void processSaveSortMethod(int choice){
         if (choice == 1) {
-            cashCreator.start(dataProvider.getData(),Config.getRESULT(),true);
+            cashCreator.start(dataProvider.getData(),Config.getRESULT(),true,true);
             System.out.println("Файлы будет сохранены в " + Config.getRESULT());
         }
     }
@@ -380,7 +380,8 @@ public class MessageHandler {
     private static void processSaveFindMethod(int choice){
         if (choice == 1) {
 
-            cashCreator.start(Collections.singletonList(dataProvider.getData().get(lastFindElement)),Config.getRESULTFIND(),true);
+            cashCreator.start(Collections.singletonList(dataProvider.getData().get(lastFindElement)),
+                    Config.getRESULTFIND(),true,true);
             System.out.println("Файлы будет сохранены в " + Config.getRESULTFIND());
         }
     }
