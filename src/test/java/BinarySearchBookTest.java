@@ -95,18 +95,18 @@ public class BinarySearchBookTest {
     }
 
     @Test
-    @DisplayName("Книга: поиск по tile (ASC) — найдено")
-    void book_searchByTile_ASC_found() {
+    @DisplayName("Книга: поиск по title (ASC) — найдено")
+    void book_searchByTitle_ASC_found() {
         List<Book> list = Randomization.getRandomBooks(30);
         var strategy = new BookSortStrategy();
-        Comparator<Book> cmp = strategy.sort(list, "tile");
+        Comparator<Book> cmp = strategy.sort(list, "title");
 
-        String probe = list.get(list.size() / 2).getTile();
-        int idx = BinarySearch.search(list, cmp, "tile", probe);
+        String probe = list.get(list.size() / 2).getTitle();
+        int idx = BinarySearch.search(list, cmp, "title", probe);
 
         assertNotEquals(-1, idx);
         assertEquals(0, cmp.compare(list.get(idx),
-                new Book.BookBuilder().tile(probe).build()));
+                new Book.BookBuilder().title(probe).build()));
     }
 
     @Test
@@ -144,16 +144,16 @@ public class BinarySearchBookTest {
     void book_unknownField_returnsMinusOne() {
         List<Book> list = Randomization.getRandomBooks(10);
         var strategy = new BookSortStrategy();
-        Comparator<Book> cmp = strategy.sort(list, "tile");
+        Comparator<Book> cmp = strategy.sort(list, "title");
         assertEquals(-1, BinarySearch.search(list, cmp, "unknown", "v"));
     }
 
     @Test
     @DisplayName("Книга: дубликаты по yearPublished — любой индекс равного")
     void book_duplicatesByYear_anyMatchIndex() {
-        Book b1 = new Book.BookBuilder().tile("A").genre("G").yearPublished(2000).build();
-        Book b2 = new Book.BookBuilder().tile("B").genre("G").yearPublished(2000).build();
-        Book b3 = new Book.BookBuilder().tile("C").genre("G").yearPublished(2000).build();
+        Book b1 = new Book.BookBuilder().title("A").genre("G").yearPublished(2000).build();
+        Book b2 = new Book.BookBuilder().title("B").genre("G").yearPublished(2000).build();
+        Book b3 = new Book.BookBuilder().title("C").genre("G").yearPublished(2000).build();
         List<Book> list = new ArrayList<>(List.of(b1, b2, b3));
 
         var strategy = new BookSortStrategy();

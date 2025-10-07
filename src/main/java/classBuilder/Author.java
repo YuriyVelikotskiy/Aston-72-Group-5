@@ -47,10 +47,15 @@ public class Author extends CashedClass {
                 '}';
     }
 
-    public static Author jsonBuild(String json) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        AuthorBuilder builder = mapper.readValue(json, AuthorBuilder.class);
-        return builder.build();
+    public static Author jsonBuild(String json) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            Author.AuthorBuilder builder = mapper.readValue(json, AuthorBuilder.class);
+            return builder.build();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("ошибка сборки данных, проверьте правильность данных");
+        }
+
     }
 
     //класс билдер

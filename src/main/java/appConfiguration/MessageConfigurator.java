@@ -23,4 +23,6 @@ public class MessageConfigurator {
     public static final String FILE_UPDATE_METHOD = "Добавить из файла";
     public static final String RANDOM_UPDATE_METHOD = "Добавить случайно-сгенерированные значения";
     public static final String MANUAL_UPDATE_METHOD = "Добавить вручную";
+
+    public static final String CHOOSE_SAVE = "Хотите сохранить данные в файл?";
 }

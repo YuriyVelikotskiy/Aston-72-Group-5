@@ -8,7 +8,7 @@ import classBuilder.Publisher;
 import java.util.Comparator;
 import java.util.List;
 
-import static appStarter.ReflectionGetObject.reflectionGetObject;
+import static appStarter.ReflectionChangeObject.reflectionChangeObject;
 
 public class BinarySearch {
     public static <T extends Comparable<? super T>> int search(List<T> list, T x) {
@@ -42,28 +42,20 @@ public class BinarySearch {
                                                     String fieldName,
                                                     String value) {
         CashedClass copy;
-        if (list.get(0).getClass() == Author.class) {
-            try {
+        try {
+            if (list.get(0).getClass() == Author.class) {
                 copy = new Author.AuthorBuilder().build();
-                copy = reflectionGetObject(copy, fieldName, value);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        } else if (list.get(0).getClass() == Book.class) {
-            try {
+                reflectionChangeObject(copy, fieldName, value);
+            } else if (list.get(0).getClass() == Book.class) {
                 copy = new Book.BookBuilder().build();
-                copy = reflectionGetObject(copy, fieldName, value);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        } else if (list.get(0).getClass() == Publisher.class) {
-            try {
+                reflectionChangeObject(copy, fieldName, value);
+            } else if (list.get(0).getClass() == Publisher.class) {
                 copy = new Publisher.PublisherBuilder().build();
-                copy = reflectionGetObject(copy, fieldName, value);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        } else return -1;
+                reflectionChangeObject(copy, fieldName, value);
+            } else return -1;
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
         if (comparator.compare(list.get(0), list.get(list.size() - 1)) > 0) {
             comparator = comparator.reversed();
         }

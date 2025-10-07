@@ -9,7 +9,7 @@ class BookTest {
 
     private Book.BookBuilder baseBuilder() {
         return new Book.BookBuilder()
-                .tile("The Night in Lisbon")
+                .title("The Night in Lisbon")
                 .yearPublished(1962)
                 .genre("War Novel");
     }
@@ -50,13 +50,13 @@ class BookTest {
     @DisplayName("Если хэши различны (без коллизий), объекты не равны")
     void shouldNotBeEqualWhenHashesDifferAndTheyActuallyDiffer() {
         Book b1 = new Book.BookBuilder()
-                .tile("Alpha")
+                .title("Alpha")
                 .yearPublished(1990)
                 .genre("Fiction")
                 .build();
 
         Book b2 = new Book.BookBuilder()
-                .tile("Beta")
+                .title("Beta")
                 .yearPublished(1991)
                 .genre("Nonfiction")
                 .build();
@@ -77,7 +77,7 @@ class BookTest {
     void shouldBeSymmetricForEqualAndNonEqualPairs() {
         Book b1 = baseBuilder().build();
         Book b2 = new Book.BookBuilder()
-                .tile("Not The Night in Lisbon")
+                .title("Not The Night in Lisbon")
                 .yearPublished(1962)
                 .genre("Not War Novel")
                 .build();

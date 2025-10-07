@@ -18,9 +18,6 @@ import static appStarter.UseSortStrategy.sortOnlyEvenValues;
 import static appStarter.UseSortStrategy.useSortStrategy;
 
 
-//TODO поиск
-//TODO обновление/перезапись
-
 public class MessageHandler {
     private static final Scanner scanner;
     private static List<? extends CashedClass> list;
@@ -29,6 +26,7 @@ public class MessageHandler {
     private static final DataProvider dataProvider;
     private static final CashCreator cashCreator;
     private static final DataProcessor dataProcessor;
+    private static int lastFindElement;
 
     static {
         dataProcessor = new MemoryDataProcessor(new FileDataProcessor(null));
@@ -53,6 +51,8 @@ public class MessageHandler {
         menuOptions.put("showSortMenu", new MenuManager("showSortMenu", 3));
         menuOptions.put("showChooseFieldMenu", new MenuManager("showChooseFieldMenu", 3));
         menuOptions.put("showChooseComparatorMenu", new MenuManager("showChooseComparatorMenu", 2));
+        menuOptions.put("showSaveSortMenu", new MenuManager("showSaveSortMenu", 2));
+        menuOptions.put("showSaveFindMenu", new MenuManager("showSaveFindMenu", 2));
     }
 
 
@@ -71,21 +71,27 @@ public class MessageHandler {
 
     }
 
-    private static void processInput(int choise) throws IOException {
+    private static void processInput(int choice) throws IOException {
 
         switch (currentMenu.getMenuName()) {
             case "showShortStartupMenu":
-                processShortStartupMenu(choise);
+                processShortStartupMenu(choice);
                 break;
 
             case "showFullStartupMenu":
-                processFullStartupMenu(choise);
+                processFullStartupMenu(choice);
                 break;
             case "showCreationMenu":
-                processCreationMethod(choise);
+                processCreationMethod(choice);
                 break;
             case "showUpdateMenu":
-                processUpdateMethod(choise);
+                processUpdateMethod(choice);
+                break;
+            case "showSaveSortMenu":
+                processSaveSortMethod(choice);
+                break;
+            case "showSaveFindMenu":
+                processSaveFindMethod(choice);
                 break;
         }
     }
@@ -117,7 +123,6 @@ public class MessageHandler {
         }
     }
 
-    //TODO закончить метод
     private static void manualInput() {
         try {
             if (currentMenu.getMenuName().equals("showUpdateMenu")) {
@@ -135,8 +140,6 @@ public class MessageHandler {
         }
     }
 
-
-    //TODO закончить метод
     private static void createRandomData() {
         try {
             if (currentMenu.getMenuName().equals("showUpdateMenu")) {
@@ -157,23 +160,22 @@ public class MessageHandler {
     private static void readFromFile() {
         try {
             if (currentMenu.getMenuName().equals("showUpdateMenu")) {
-                list = Input.createRandomObjects();
+                list = Input.readFromFile();
                 cache(() -> CashCreator.getInstance().start(list, Config.getCASHPATH(), true), list);
                 startMessage();
             } else {
-                list = Input.createRandomObjects();
+                list = Input.readFromFile();
                 cache(() -> CashCreator.getInstance().start(list), list);
                 startMessage();
             }
         } catch (Exception e) {
-            System.out.println("Некорректный ввод!!!");
+            System.out.println(e.getMessage());
             readFromFile();
         }
     }
 
-    private static void processShortStartupMenu(int choise) throws IOException {
-        //TODO посмотреть можно ли сделать цепочку обязанностей
-        switch (choise) {
+    private static void processShortStartupMenu(int choice) throws IOException {
+        switch (choice) {
             case 1:
                 processCreationMenu();
             case 2:
@@ -187,9 +189,8 @@ public class MessageHandler {
         processInput(getAnswer());
     }
 
-    private static void processFullStartupMenu(int choise) throws IOException {
-        //TODO поменять на ENUM
-        switch (choise) {
+    private static void processFullStartupMenu(int choice) throws IOException {
+        switch (choice) {
             case 1:
                 processCreationMenu();
                 break;
@@ -209,15 +210,15 @@ public class MessageHandler {
     }
 
 
-    private static void showSortMenu() {
+    private static void showSortMenu() throws IOException {
         Menu.showSortMenu();
         currentMenu = menuOptions.get("showSortMenu");
         processSortMenu(getAnswer());
     }
 
-    private static void processSortMenu(int choise) {
+    private static void processSortMenu(int choice) throws IOException {
 
-        switch (choise) {
+        switch (choice) {
             case 1:
                 fields = showChooseFieldMenu(dataProvider.getClazz());
                 currentMenu = menuOptions.get("showChooseFieldMenu");
@@ -230,6 +231,7 @@ public class MessageHandler {
                         dataProvider.getClazz(), fields.get(field), ascending);
                 listIsSorted = true;
                 showResultData();
+                processSaveSortMenu();
                 restartMenu();
                 break;
             case 2:
@@ -239,6 +241,7 @@ public class MessageHandler {
                 cmpFromSort = null;
 
                 showResultData();
+                processSaveSortMenu();
                 restartMenu();
                 break;
             case 3:
@@ -263,21 +266,21 @@ public class MessageHandler {
     }
 
 
-    private static int processChooseField(int choise) {
-        return switch (choise) {
+    private static int processChooseField(int choice) {
+        return switch (choice) {
             case 1 -> 0;
             case 2 -> 1;
             case 3 -> 2;
-            default -> throw new IllegalStateException("Unexpected value: " + choise);
+            default -> throw new IllegalStateException("Unexpected value: " + choice);
         };
     }
 
-    private static boolean processChooseComparator(int choise) {
+    private static boolean processChooseComparator(int choice) {
         currentMenu = menuOptions.get("showChooseComparatorMenu");
-        return switch (choise) {
+        return switch (choice) {
             case 1 -> true;
             case 2 -> false;
-            default -> throw new IllegalStateException("Unexpected value: " + choise);
+            default -> throw new IllegalStateException("Unexpected value: " + choice);
         };
 
     }
@@ -285,7 +288,7 @@ public class MessageHandler {
     private static void processFindMenu() {
         try {
             if (listIsSorted && fieldFromSort != null && cmpFromSort != null) {
-                System.out.printf("Введите значение %s объекта, который хотите найти\n", fieldFromSort); //TODO вынести отсюда
+                System.out.printf("Введите значение %s объекта, который хотите найти\n", fieldFromSort);
                 scanner.nextLine();
                 String value = scanner.nextLine();
                 if (value.isEmpty()) System.out.println("Введите еще раз");
@@ -293,6 +296,8 @@ public class MessageHandler {
                         cmpFromSort, fieldFromSort, value);
                 if (idx >= 0) {
                     System.out.println(idx + 1 + ". " + dataProvider.getData().get(idx));
+                    lastFindElement = idx;
+                    processSaveFindMenu();
                 } else {
                     System.out.println("Нет такого элемента");
                 }
@@ -311,7 +316,6 @@ public class MessageHandler {
         }
     }
 
-    //TODO закончить метод
     private static void processUpdateMenu() throws IOException {
         Menu.showUpdateMenu();
         currentMenu = menuOptions.get("showUpdateMenu");
@@ -323,32 +327,25 @@ public class MessageHandler {
     }
 
     private static int getAnswer() {
-        int choise;
+        int choice;
         try {
-            int tmp_choise;
-            tmp_choise = scanner.nextInt();
-            if (isInputValid(tmp_choise)) {
-                choise = tmp_choise;
+            int tmp_choice;
+            tmp_choice = scanner.nextInt();
+            if (isInputValid(tmp_choice)) {
+                choice = tmp_choice;
             } else {
-                System.out.println("Неккоретный ввод!");
+                System.out.println("Некорректный ввод!");
                 scanner.nextLine();
-                choise = getAnswer();
+                choice = getAnswer();
             }
         } catch (InputMismatchException e) {
-            System.out.println("Неккоректный ввод!");
+            System.out.println("Некорректный ввод!");
             scanner.nextLine();
-            choise = getAnswer();
+            choice = getAnswer();
         }
-        return choise;
+        return choice;
     }
 
-    private static void showInputData() {
-        System.out.println("Ваши введенные данные:");
-        int counter = 1;
-        for (Object item : list) {
-            System.out.println(counter++ + ". " + item);
-        }
-    }
 
     private static boolean isInputValid(int n) {
         return currentMenu.isValidInput(n);
@@ -360,5 +357,31 @@ public class MessageHandler {
         showResultData();
         runnable.run();
 
+    }
+
+    private static void processSaveSortMenu() throws IOException {
+        Menu.showSaveMenu();
+        currentMenu = menuOptions.get("showSaveSortMenu");
+        processInput(getAnswer());
+    }
+    private static void processSaveSortMethod(int choice){
+        if (choice == 1) {
+            cashCreator.start(dataProvider.getData(),Config.getRESULT(),true);
+            System.out.println("Файлы будет сохранены в " + Config.getRESULT());
+        }
+    }
+
+    private static void processSaveFindMenu() throws IOException {
+        Menu.showSaveMenu();
+        currentMenu = menuOptions.get("showSaveFindMenu");
+        processInput(getAnswer());
+    }
+
+    private static void processSaveFindMethod(int choice){
+        if (choice == 1) {
+
+            cashCreator.start(Collections.singletonList(dataProvider.getData().get(lastFindElement)),Config.getRESULTFIND(),true);
+            System.out.println("Файлы будет сохранены в " + Config.getRESULTFIND());
+        }
     }
 }

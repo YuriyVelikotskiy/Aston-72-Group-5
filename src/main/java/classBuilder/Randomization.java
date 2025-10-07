@@ -101,7 +101,7 @@ public class Randomization {
             ArrayList<Book> randomList = new ArrayList<>();
             Book.BookBuilder builder = new Book.BookBuilder();
             for (int i = 0; i < listSize; i++) {
-                randomList.add(builder.tile(getRandomString(titleList))
+                randomList.add(builder.title(getRandomString(titleList))
                         .genre(getRandomString(genersList))
                         .yearPublished(getRandomDate()).build());
             }

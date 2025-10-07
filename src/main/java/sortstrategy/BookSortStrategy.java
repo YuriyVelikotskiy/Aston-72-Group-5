@@ -13,8 +13,8 @@ public final class BookSortStrategy extends BaseSortStrategy<Book> {
 
     private static final Comparator<Book> BY_GENRE =
             Comparator.comparing(Book::getGenre, Comparator.nullsLast(String::compareTo));
-    private static final Comparator<Book> BY_TILE =
-            Comparator.comparing(Book::getTile, Comparator.nullsLast(String::compareTo));
+    private static final Comparator<Book> BY_TITLE =
+            Comparator.comparing(Book::getTitle, Comparator.nullsLast(String::compareTo));
     private static final Comparator<Book> BY_YEAR =
             Comparator.comparingInt(Book::getYearPublished);
 
@@ -22,7 +22,7 @@ public final class BookSortStrategy extends BaseSortStrategy<Book> {
     protected Map<String, Comparator<Book>> comparators() {
         return Map.of(
                 "genre", BY_GENRE,
-                "tile", BY_TILE,
+                "title", BY_TITLE,
                 "yearpublished", BY_YEAR
         );
     }

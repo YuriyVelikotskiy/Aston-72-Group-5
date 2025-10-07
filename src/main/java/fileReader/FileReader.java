@@ -52,7 +52,7 @@ public class FileReader {
         try {
             return createList(fileData, type);
         } catch (RuntimeException e) {
-            throw new RuntimeException("Ошибка чтения данны. проверьте правильность записи в файл", e);
+            throw new RuntimeException("Ошибка чтения данных. проверьте правильность записи в файл");
         }
 
     }

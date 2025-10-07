@@ -4,10 +4,7 @@ import appConfiguration.MessageConfigurator;
 import classBuilder.CashedClass;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 public class Menu {
@@ -80,6 +77,14 @@ public class Menu {
                         "2."+MessageConfigurator.RANDOM_UPDATE_METHOD+"\n"+
                         "3."+MessageConfigurator.MANUAL_UPDATE_METHOD+"\n"+
                         "4."+MessageConfigurator.EXIT
+        );
+    }
+
+    public static void showSaveMenu(){
+        System.out.println(
+            MessageConfigurator.CHOOSE_SAVE +"\n"+
+                    "1. Да"+"\n"+
+                    "2. Нет"
         );
     }
 }
