@@ -16,9 +16,9 @@ public class BookSortStrategyTest {
     @Test
     @DisplayName("Тест сортировки книг по названию")
     void booksShouldBeSortedByTitle() {
-        new BookSortStrategy().sort(bookList, "tile"); // поле getTile
+        new BookSortStrategy().sort(bookList, "title"); // поле getTile
         expectedBookList.sort(Comparator.comparing(
-                Book::getTile,
+                Book::getTitle,
                 Comparator.nullsLast(String::compareToIgnoreCase)
         ));
         assertEquals(expectedBookList, bookList);
@@ -27,9 +27,9 @@ public class BookSortStrategyTest {
     @Test
     @DisplayName("Тест сортировки книг по названию в обратном порядке")
     void booksShouldBeSortedByTitleWithReversedOrder() {
-        new BookSortStrategy().sort(bookList, "tile", false); // поле getTile
+        new BookSortStrategy().sort(bookList, "title", false); // поле getTile
         expectedBookList.sort(Comparator.comparing(
-                Book::getTile,
+                Book::getTitle,
                 Comparator.nullsLast(String::compareToIgnoreCase).reversed()
         ));
         assertEquals(expectedBookList, bookList);
