@@ -2,11 +2,15 @@ package config;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class Config {
 
     /// Пути для работы с файлами
     private static final String CASHDIR = System.getProperty("user.dir") + "\\src\\cash\\";
+    private static final String RESULTDIR = System.getProperty("user.dir") + "\\src\\results\\";
+    private static final String RESULTSORT = RESULTDIR + "resultSort.txt";
+    private static final String RESULTFIND = RESULTDIR + "resultFind.txt";
     private static final String CASHPATH = CASHDIR+"cash";
     private static final String DATAHOLDER = System.getProperty("user.dir") + "\\src\\randomDataHolder\\";
     private static final String TILES = "bookTiles.txt";
@@ -48,4 +52,17 @@ public class Config {
     public static String getCASHDIR() {
         return CASHDIR;
     }
+
+    public static Path getRESULT() {
+        return Paths.get(RESULTSORT);
+    }
+
+    public static Path getRESULTFIND() {
+        return Paths.get(RESULTFIND);
+    }
+
+    public static List<Path> getDirectories(){
+        return List.of(Paths.get(CASHDIR),Paths.get(RESULTDIR));
+    }
+
 }

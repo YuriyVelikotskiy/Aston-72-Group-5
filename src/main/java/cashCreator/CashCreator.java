@@ -6,7 +6,6 @@ import classBuilder.CashedClass;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -24,16 +23,18 @@ public class CashCreator {
     private final BlockingQueue<CashTask> queue = new LinkedBlockingQueue<>();
 
 
-    /// Метод получения Instance с защитой от рефлексии
+    /// Метод получения Instance с защитой от рефлексии и проверка на наличие директорий для записи
     private CashCreator() {
-        Path dirPath = Paths.get(Config.getCASHDIR());
-        if (!Files.exists(dirPath) || !Files.isDirectory(dirPath)){
-            try {
-                Files.createDirectory(dirPath);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        List<Path> dirs = Config.getDirectories();
+        dirs.forEach(dirPath ->{
+            if (!Files.exists(dirPath) || !Files.isDirectory(dirPath)){
+                try {
+                    Files.createDirectory(dirPath);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        }
+        });
         if (instance != null) {
             throw new IllegalStateException("CashCreator Already exist");
         }
