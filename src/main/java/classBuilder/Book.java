@@ -44,10 +44,14 @@ public class Book extends CashedClass{
                 '}';
     }
 
-    public static Book jsonBuild(String json) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        Book.BookBuilder builder = mapper.readValue(json, Book.BookBuilder.class);
-        return builder.build();
+    public static Book jsonBuild(String json){
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            Book.BookBuilder builder = mapper.readValue(json, Book.BookBuilder.class);
+            return builder.build();
+        }catch (JsonProcessingException e){
+            throw new RuntimeException("ошибка сборки данных, проверьте правильность данных");
+        }
     }
     
 

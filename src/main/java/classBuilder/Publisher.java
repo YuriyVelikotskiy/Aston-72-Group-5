@@ -47,10 +47,14 @@ public class Publisher extends CashedClass {
                 '}';
     }
 
-    public static Publisher jsonBuild(String json) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        Publisher.PublisherBuilder builder = mapper.readValue(json, Publisher.PublisherBuilder.class);
-        return builder.build();
+    public static Publisher jsonBuild(String json){
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            Publisher.PublisherBuilder builder = mapper.readValue(json, Publisher.PublisherBuilder.class);
+            return builder.build();
+        }catch (JsonProcessingException e){
+            throw new RuntimeException("ошибка сборки данных, проверьте правильность данных");
+        }
     }
 
     //класс билдер
